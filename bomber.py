@@ -1,0 +1,2 @@
+class bomber:
+    posX;
