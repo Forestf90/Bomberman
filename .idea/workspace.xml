@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47078bf3-cc5c-40d8-8426-d420b7837670" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/images/hero/pf0.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pf0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/hero/pr0.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pr0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/hero/pr1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pr1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/hero/pr2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pr2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/pb0.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pb0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/pb1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pb1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/pb2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pb2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/pf1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pf1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/pf2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/hero/pf2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
     </list>
@@ -23,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
+            <state relative-caret-position="34">
+              <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -35,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="40" column="36" lean-forward="true" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
+            <state relative-caret-position="306">
+              <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -187,15 +188,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="40" column="36" lean-forward="true" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
+        <state relative-caret-position="306">
+          <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="52" column="36" lean-forward="true" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
+        <state relative-caret-position="34">
+          <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
