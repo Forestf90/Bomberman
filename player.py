@@ -1,8 +1,9 @@
 import pygame
 
+
 class Player:
-    posX = 0
-    posY = 0
+    posX = 4
+    posY = 4
     direction = 0
     frame = 0
     animation = []
@@ -15,6 +16,33 @@ class Player:
 
     def __init__(self):
         self.load_animations()
+
+    def move(self, dx, dy, map):
+        tempx = int(self.posX/4)
+        tempy = int(self.posY/4)
+
+        if self.posX % 4 != 0 and dx == 0:
+            return
+        if self.posY % 4 != 0 and dy == 0:
+            return
+
+        # right
+        if dx == 1:
+            if map[tempx+1][tempy] == 0:
+                self.posX += 1
+        # left
+        elif dx == -1:
+            if map[tempx-1][tempy] == 0:
+                self.posX -= 1
+
+        # top
+        if dy == 1:
+            if map[tempx][tempy+1] == 0:
+                self.posY += 1
+        # bottom
+        elif dy == -1:
+            if map[tempx][tempy-1] == 0:
+                self.posY -= 1
 
     def load_animations(self):
         front = []
