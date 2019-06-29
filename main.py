@@ -53,7 +53,7 @@ bomb1_img = pygame.transform.scale(bomb1_img, (TILEWIDTH, TILEHEIGHT))
 bomb2_img = pygame.image.load('images/bomb/2.png')
 bomb2_img = pygame.transform.scale(bomb2_img, (TILEWIDTH, TILEHEIGHT))
 
-bomb3_img = pygame.image.load('images/bomb/2.png')
+bomb3_img = pygame.image.load('images/bomb/3.png')
 bomb3_img = pygame.transform.scale(bomb3_img, (TILEWIDTH, TILEHEIGHT))
 
 terrain_images = [grass_img, block_img, box_img]
@@ -82,7 +82,7 @@ def generate_map():
         for j in range(1, len(map[i])-1):
             if map[i][j] != 0:
                 continue
-            elif (i < 3 or i > len(map)-4)and (j < 3 or j > len(map[i])-4):
+            elif (i < 3 or i > len(map)-4) and (j < 3 or j > len(map[i])-4):
                 continue
             if random.randint(0, 9) < 7:
                 map[i][j] = 2
@@ -93,7 +93,7 @@ def generate_map():
 def main():
     generate_map()
     while True:
-        clock.tick(15)
+        dt = clock.tick(15)
         keys = pygame.key.get_pressed()
 
         temp = player.direction
@@ -133,6 +133,9 @@ def main():
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
-
+        for b in bombs:
+            b.update(dt)
+            if b.time < 1:
+                bombs.remove(b)
 
 main()
