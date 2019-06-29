@@ -28,7 +28,7 @@ map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+       [1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -37,21 +37,38 @@ map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
+grass_img = pygame.image.load('images/terrain/grass.png')
+grass_img = pygame.transform.scale(grass_img, (TILEWIDTH, TILEHEIGHT))
+
 block_img = pygame.image.load('images/terrain/block.png')
 block_img = pygame.transform.scale(block_img, (TILEWIDTH, TILEHEIGHT))
+
+box_img = pygame.image.load('images/terrain/box.png')
+box_img = pygame.transform.scale(box_img, (TILEWIDTH, TILEHEIGHT))
+
+terrain_images = [grass_img, block_img, box_img]
+# terrain_images.append(grass_img)
+# terrain_images.append(block_img)
+# terrain_images.append(box_img)
 
 
 def draw():
     s.fill(BACKGROUND)
     for i in range(len(map)):
         for j in range(len(map[i])):
-            if map[i][j] == 1:
-                s.blit(block_img, (i*TILEWIDTH, j*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
+            #if map[i][j] != 0:
+            s.blit(terrain_images[map[i][j]], (i*TILEWIDTH, j*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
+
     s.blit(player.animation[player.direction][player.frame],
            (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
 
     pygame.display.update()
 
+def generate_map(grid):
+
+    for i in range(3,len(grid)-3):
+        for j in range(3 , len(grid[i]-3)):
+            
 
 def main():
     while True:
