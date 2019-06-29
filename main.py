@@ -71,9 +71,9 @@ def generate_map():
         for j in range(1, len(map[i])-1):
             if map[i][j] != 0:
                 continue
-            elif (i<3 or i> len(map)-4 )and (j<3 or j> len(map[i])-4):
+            elif (i < 3 or i > len(map)-4)and (j < 3 or j > len(map[i])-4):
                 continue
-            if random.getrandbits(1) == 1:
+            if random.randint(0, 9) < 7:
                 map[i][j] = 2
 
     return
