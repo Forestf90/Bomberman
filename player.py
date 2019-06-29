@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 
 
 class Player:
@@ -22,8 +22,16 @@ class Player:
         tempy = int(self.posY/4)
 
         if self.posX % 4 != 0 and dx == 0:
+            if self.posX % 4 == 1:
+                self.posX -= 1
+            elif self.posX % 4 == 3:
+                self.posX += 1
             return
         if self.posY % 4 != 0 and dy == 0:
+            if self.posY % 4 == 1:
+                self.posY -= 1
+            elif self.posY % 4 == 3:
+                self.posY += 1
             return
 
         # right
@@ -32,15 +40,17 @@ class Player:
                 self.posX += 1
         # left
         elif dx == -1:
+            tempx = math.ceil(self.posX / 4)
             if map[tempx-1][tempy] == 0:
                 self.posX -= 1
 
-        # top
+        # bottom
         if dy == 1:
             if map[tempx][tempy+1] == 0:
                 self.posY += 1
-        # bottom
+        # top
         elif dy == -1:
+            tempy = math.ceil(self.posY / 4)
             if map[tempx][tempy-1] == 0:
                 self.posY -= 1
 
