@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, random
 from player import Player
 
 UP = 'up'
@@ -28,7 +28,7 @@ map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-       [1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1],
+       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -64,13 +64,21 @@ def draw():
 
     pygame.display.update()
 
-def generate_map(grid):
 
-    for i in range(3,len(grid)-3):
-        for j in range(3 , len(grid[i]-3)):
-            
+def generate_map():
+
+    for i in range(3, len(map)-3):
+        for j in range(3, len(map[i])-3):
+            if map[i][j] != 0:
+                continue
+            if random.getrandbits(1) == 1:
+                map[i][j] = 2
+
+    return
+
 
 def main():
+    generate_map()
     while True:
         clock.tick(15)
         keys = pygame.key.get_pressed()
