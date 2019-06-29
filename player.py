@@ -1,5 +1,6 @@
 import pygame, math
 
+from bomb import Bomb
 
 class Player:
     posX = 4
@@ -7,6 +8,7 @@ class Player:
     direction = 0
     frame = 0
     animation = []
+    range = 3
 
     # frontAnimation = []
     # backAnimation = []
@@ -53,6 +55,10 @@ class Player:
             tempy = math.ceil(self.posY / 4)
             if map[tempx][tempy-1] == 0:
                 self.posY -= 1
+
+    def plant_bomb(self):
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4))
+        return b
 
     def load_animations(self):
         front = []

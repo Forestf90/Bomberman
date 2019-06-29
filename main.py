@@ -22,6 +22,7 @@ pygame.display.set_caption('Bomberman')
 clock = pygame.time.Clock()
 
 player = Player()
+bombs = []
 
 map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -46,10 +47,17 @@ block_img = pygame.transform.scale(block_img, (TILEWIDTH, TILEHEIGHT))
 box_img = pygame.image.load('images/terrain/box.png')
 box_img = pygame.transform.scale(box_img, (TILEWIDTH, TILEHEIGHT))
 
-terrain_images = [grass_img, block_img, box_img]
-# terrain_images.append(grass_img)
-# terrain_images.append(block_img)
-# terrain_images.append(box_img)
+bomb1_img = pygame.image.load('images/bomb/1.png')
+bomb1_img = pygame.transform.scale(bomb1_img, (TILEWIDTH, TILEHEIGHT))
+
+bomb2_img = pygame.image.load('images/bomb/2.png')
+bomb2_img = pygame.transform.scale(bomb2_img, (TILEWIDTH, TILEHEIGHT))
+
+bomb3_img = pygame.image.load('images/bomb/3.png')
+bomb3_img = pygame.transform.scale(bomb3_img, (TILEWIDTH, TILEHEIGHT))
+
+terrain_images = [grass_img, block_img, box_img, grass_img]
+bomb_images = [bomb1_img, bomb2_img, bomb3_img]
 
 
 def draw():
@@ -58,6 +66,9 @@ def draw():
         for j in range(len(map[i])):
             #if map[i][j] != 0:
             s.blit(terrain_images[map[i][j]], (i*TILEWIDTH, j*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
+
+    for x in bombs:
+        s.blit(bomb_images[x.frame], (x.posX*TILEWIDTH, x.posY*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
 
     s.blit(player.animation[player.direction][player.frame],
            (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
@@ -71,7 +82,7 @@ def generate_map():
         for j in range(1, len(map[i])-1):
             if map[i][j] != 0:
                 continue
-            elif (i < 3 or i > len(map)-4)and (j < 3 or j > len(map[i])-4):
+            elif (i < 3 or i > len(map)-4) and (j < 3 or j > len(map[i])-4):
                 continue
             if random.randint(0, 9) < 7:
                 map[i][j] = 2
@@ -82,7 +93,7 @@ def generate_map():
 def main():
     generate_map()
     while True:
-        clock.tick(15)
+        dt = clock.tick(15)
         keys = pygame.key.get_pressed()
 
         temp = player.direction
@@ -115,10 +126,19 @@ def main():
                 player.frame = 0
             else:
                 player.frame += 1
+        if keys[pygame.K_SPACE]:
+            temp_bomb = player.plant_bomb()
+            bombs.append(temp_bomb)
+            map[temp_bomb.posX][temp_bomb.posY] = 3
+
         draw()
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
-
+        for b in bombs:
+            b.update(dt)
+            if b.time < 1:
+                map[b.posX][b.posY] = 0
+                bombs.remove(b)
 
 main()
