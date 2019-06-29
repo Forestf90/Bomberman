@@ -67,9 +67,11 @@ def draw():
 
 def generate_map():
 
-    for i in range(3, len(map)-3):
-        for j in range(3, len(map[i])-3):
+    for i in range(1, len(map)-1):
+        for j in range(1, len(map[i])-1):
             if map[i][j] != 0:
+                continue
+            elif (i<3 or i> len(map)-4 )and (j<3 or j> len(map[i])-4):
                 continue
             if random.getrandbits(1) == 1:
                 map[i][j] = 2
