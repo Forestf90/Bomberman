@@ -56,7 +56,7 @@ bomb2_img = pygame.transform.scale(bomb2_img, (TILEWIDTH, TILEHEIGHT))
 bomb3_img = pygame.image.load('images/bomb/3.png')
 bomb3_img = pygame.transform.scale(bomb3_img, (TILEWIDTH, TILEHEIGHT))
 
-terrain_images = [grass_img, block_img, box_img]
+terrain_images = [grass_img, block_img, box_img, grass_img]
 bomb_images = [bomb1_img, bomb2_img, bomb3_img]
 
 
@@ -127,7 +127,9 @@ def main():
             else:
                 player.frame += 1
         if keys[pygame.K_SPACE]:
-            bombs.append(player.plant_bomb())
+            temp_bomb = player.plant_bomb()
+            bombs.append(temp_bomb)
+            map[temp_bomb.posX][temp_bomb.posY] = 3
 
         draw()
         for e in pygame.event.get():
@@ -136,6 +138,7 @@ def main():
         for b in bombs:
             b.update(dt)
             if b.time < 1:
+                map[b.posX][b.posY] = 0
                 bombs.remove(b)
 
 main()

@@ -57,7 +57,7 @@ class Player:
                 self.posY -= 1
 
     def plant_bomb(self):
-        b = Bomb(self.range, int(self.posX/4), int(self.posY/4))
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4))
         return b
 
     def load_animations(self):
