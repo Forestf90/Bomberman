@@ -159,5 +159,9 @@ def main():
                 exp_temp.explode(map)
                 explosions.append(exp_temp)
                 bombs.remove(b)
+        for e in explosions:
+            e.update(dt)
+            if e.time < 1:
+                explosions.remove(e)
 
 main()
