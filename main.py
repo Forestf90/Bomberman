@@ -142,23 +142,30 @@ def main():
                 player.frame = 0
             else:
                 player.frame += 1
-        if keys[pygame.K_SPACE]:
-            temp_bomb = player.plant_bomb()
-            bombs.append(temp_bomb)
-            map[temp_bomb.posX][temp_bomb.posY] = 3
+        # if keys[pygame.K_SPACE]:
+        #     temp_bomb = player.plant_bomb()
+        #     bombs.append(temp_bomb)
+        #     map[temp_bomb.posX][temp_bomb.posY] = 3
 
         draw()
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
+            elif e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
+                    temp_bomb = player.plant_bomb()
+                    bombs.append(temp_bomb)
+                    map[temp_bomb.posX][temp_bomb.posY] = 3
+
         for b in bombs:
             b.update(dt)
             if b.time < 1:
                 map[b.posX][b.posY] = 0
                 exp_temp = Explosion(b.posX, b.posY, b.range)
-                exp_temp.explode(map)
-                explosions.append(exp_temp)
                 bombs.remove(b)
+                exp_temp.explode(map, bombs)
+                explosions.append(exp_temp)
+                
         for e in explosions:
             e.update(dt)
             if e.time < 1:
