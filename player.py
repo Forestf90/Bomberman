@@ -1,6 +1,7 @@
 import pygame, math
 
 from bomb import Bomb
+from explosion import Explosion
 
 class Player:
     posX = 4
@@ -17,6 +18,7 @@ class Player:
     # deathAnimation = []
 
     def __init__(self):
+        self.life = True
         self.load_animations()
 
     def move(self, dx, dy, map):
@@ -59,6 +61,13 @@ class Player:
     def plant_bomb(self):
         b = Bomb(self.range, round(self.posX/4), round(self.posY/4))
         return b
+
+    def check_death(self, exp):
+
+        for e in exp:
+            for s in e.sectors:
+                if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
+                    self.life = False
 
     def load_animations(self):
         front = []
