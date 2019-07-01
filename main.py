@@ -2,11 +2,6 @@ import pygame, sys, random
 from player import Player
 from explosion import Explosion
 
-UP = 'up'
-DOWN = 'down'
-LEFT = 'left'
-RIGHT = 'right'
-
 TILEWIDTH = 40
 TILEHEIGHT = 40
 
@@ -71,12 +66,15 @@ terrain_images = [grass_img, block_img, box_img, grass_img]
 bomb_images = [bomb1_img, bomb2_img, bomb3_img]
 explosion_images = [explosion1_img, explosion2_img, explosion3_img]
 
+pygame.font.init()
+font = pygame.font.SysFont('Comic Sans MS', 30)
+TEXTLOSE = font.render('GAME OVER', False, (0, 0, 0))
+TEXTWIN = font.render('WIN', False, (0, 0, 0))
 
 def draw():
     s.fill(BACKGROUND)
     for i in range(len(map)):
         for j in range(len(map[i])):
-            #if map[i][j] != 0:
             s.blit(terrain_images[map[i][j]], (i*TILEWIDTH, j*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
 
     for x in bombs:
@@ -85,9 +83,11 @@ def draw():
     for y in explosions:
         for x in y.sectors:
             s.blit(explosion_images[y.frame], (x[0]*TILEWIDTH, x[1]*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
-
-    s.blit(player.animation[player.direction][player.frame],
-           (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
+    if player.life:
+        s.blit(player.animation[player.direction][player.frame],
+                (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
+    else:
+        s.blit(TEXTLOSE, ((WINDOWWIDTH/2) - 30, (WINDOWHEIGHT/2) - 30))
 
     pygame.display.update()
 
@@ -108,10 +108,9 @@ def generate_map():
 
 def main():
     generate_map()
-    while True:
+    while player.life:
         dt = clock.tick(15)
         keys = pygame.key.get_pressed()
-
         temp = player.direction
         movement = False
         if keys[pygame.K_DOWN]:
@@ -157,18 +156,35 @@ def main():
                     bombs.append(temp_bomb)
                     map[temp_bomb.posX][temp_bomb.posY] = 3
 
-        for b in bombs:
-            b.update(dt)
-            if b.time < 1:
-                map[b.posX][b.posY] = 0
-                exp_temp = Explosion(b.posX, b.posY, b.range)
-                bombs.remove(b)
-                exp_temp.explode(map, bombs)
-                explosions.append(exp_temp)
-                
-        for e in explosions:
-            e.update(dt)
-            if e.time < 1:
-                explosions.remove(e)
+        update_bombs(dt)
+    game_over()
+
+
+def update_bombs(dt):
+    for b in bombs:
+        b.update(dt)
+        if b.time < 1:
+            map[b.posX][b.posY] = 0
+            exp_temp = Explosion(b.posX, b.posY, b.range)
+            bombs.remove(b)
+            exp_temp.explode(map, bombs)
+            explosions.append(exp_temp)
+
+    player.check_death(explosions)
+    for e in explosions:
+        e.update(dt)
+        if e.time < 1:
+            explosions.remove(e)
+
+def game_over():
+
+    textsurface = font.render('GAME OVER', False, (0, 0, 0))
+    while True:
+        dt = clock.tick(15)
+        update_bombs(dt)
+        draw()
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                sys.exit(0)
 
 main()
