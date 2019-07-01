@@ -69,7 +69,7 @@ explosion_images = [explosion1_img, explosion2_img, explosion3_img]
 pygame.font.init()
 font = pygame.font.SysFont('Comic Sans MS', 30)
 TEXTLOSE = font.render('GAME OVER', False, (0, 0, 0))
-TEXTWIN =font.render('WIN', False, (0, 0, 0))
+TEXTWIN = font.render('WIN', False, (0, 0, 0))
 
 def draw():
     s.fill(BACKGROUND)
@@ -87,7 +87,7 @@ def draw():
         s.blit(player.animation[player.direction][player.frame],
                 (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
     else:
-        s.blit(TEXTLOSE, ((WINDOWWIDTH/2) - 30, (WINDOWHEIGHT/2) + 30))
+        s.blit(TEXTLOSE, ((WINDOWWIDTH/2) - 30, (WINDOWHEIGHT/2) - 30))
 
     pygame.display.update()
 
@@ -111,7 +111,6 @@ def main():
     while player.life:
         dt = clock.tick(15)
         keys = pygame.key.get_pressed()
-
         temp = player.direction
         movement = False
         if keys[pygame.K_DOWN]:
