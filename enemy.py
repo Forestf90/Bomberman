@@ -20,19 +20,28 @@ class Enemy:
     def move(self):
 
         if self.direction == 0:
-            self.posX += 1
-        elif self.direction == 1:
             self.posY += 1
+        elif self.direction == 1:
+            self.posX += 1
         elif self.direction == 2:
-            self.posX -= 1
-        elif self.direction == 3:
             self.posY -= 1
+        elif self.direction == 3:
+            self.posX -= 1
+
+        if self.posX % 4 == 0 and self.posY % 4 == 0:
+            self.movment_path.clear()
+            self.path.clear()
+            
+        if self.frame == 2:
+            self.frame = 0
+        else:
+            self.frame += 1
 
     def make_move(self, map, bombs, explosions, enemy):
 
-        if self.posX % 4 == 0 and self.posY % 4 == 0 and len(self.movment_path) == 0:
-            self.movment_path.clear()
-            self.path.clear()
+        if len(self.movment_path) == 0:
+            # self.movment_path.clear()
+            # self.path.clear()
             self.dfs(map, bombs, explosions, enemy)
         else:
             self.direction = self.movment_path[-1]
@@ -92,16 +101,16 @@ class Enemy:
 
         if grid[last[0] + 1][last[1]] == 0 or grid[last[0] + 1][last[1]] == 1:
             path.append([last[0] + 1], [last[1]])
-            self.movment_path.append(0)
+            self.movment_path.append(1)
         elif grid[last[0] - 1][last[1]] == 0 or grid[last[0] - 1][last[1]] == 1:
             path.append([last[0] - 1, last[1]])
-            self.movment_path.append(2)
+            self.movment_path.append(3)
         elif grid[last[0]][last[1] + 1] == 0 or grid[last[0]][last[1] + 1] == 1:
             path.append([last[0], last[1] + 1])
-            self.movment_path.append(1)
+            self.movment_path.append(0)
         elif grid[last[0]][last[1] - 1] == 0 or grid[last[0]][last[1] - 1] == 1:
             path.append([last[0], last[1] - 1])
-            self.movment_path.append(3)
+            self.movment_path.append(2)
 
         self.dfs_rec(grid, end, path)
 
