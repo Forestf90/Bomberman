@@ -1,6 +1,7 @@
 import pygame, sys, random
 from player import Player
 from explosion import Explosion
+from enemy import Enemy
 
 TILEWIDTH = 40
 TILEHEIGHT = 40
@@ -18,6 +19,7 @@ pygame.display.set_caption('Bomberman')
 clock = pygame.time.Clock()
 
 player = Player()
+en1 = Enemy()
 bombs = []
 explosions =[]
 
@@ -85,9 +87,12 @@ def draw():
             s.blit(explosion_images[y.frame], (x[0]*TILEWIDTH, x[1]*TILEHEIGHT, TILEHEIGHT, TILEWIDTH))
     if player.life:
         s.blit(player.animation[player.direction][player.frame],
-                (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
+                    (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
     else:
         s.blit(TEXTLOSE, ((WINDOWWIDTH/2) - 30, (WINDOWHEIGHT/2) - 30))
+    if en1.life:
+        s.blit(en1.animation[en1.direction][en1.frame],
+               (en1.posX * (TILEWIDTH / 4), en1.posY * (TILEHEIGHT / 4), TILEWIDTH, TILEHEIGHT))
 
     pygame.display.update()
 
@@ -171,10 +176,12 @@ def update_bombs(dt):
             explosions.append(exp_temp)
 
     player.check_death(explosions)
+    en1.check_death(explosions)
     for e in explosions:
         e.update(dt)
         if e.time < 1:
             explosions.remove(e)
+
 
 def game_over():
 
@@ -186,5 +193,6 @@ def game_over():
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
+
 
 main()

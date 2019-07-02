@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main.py" line="92" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/main.py" line="97" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47078bf3-cc5c-40d8-8426-d420b7837670" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pb0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pb1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pb2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pd7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pf0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pf1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pf2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pl0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pl1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pl2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pr0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pr1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/temp/pr2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/hero/tile071.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="71" column="10" selection-start-line="71" selection-start-column="10" selection-end-line="71" selection-end-column="10" />
+            <state relative-caret-position="331">
+              <caret line="182" column="32" lean-forward="true" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -28,10 +51,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/enemy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/explosion.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -39,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+            <state relative-caret-position="161">
+              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="69" selection-end-column="37" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -76,6 +108,7 @@
         <option value="$PROJECT_DIR$/bomb.py" />
         <option value="$PROJECT_DIR$/explosion.py" />
         <option value="$PROJECT_DIR$/player.py" />
+        <option value="$PROJECT_DIR$/enemy.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -92,7 +125,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -104,6 +136,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -214,6 +247,13 @@
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
     <entry file="file://$PROJECT_DIR$/bomber.py" />
+    <entry file="file://$PROJECT_DIR$/explosion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bomb.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -223,25 +263,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+        <state relative-caret-position="161">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="69" selection-end-column="37" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/explosion.py">
+    <entry file="file://$PROJECT_DIR$/enemy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="255">
+          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="71" column="10" selection-start-line="71" selection-start-column="10" selection-end-line="71" selection-end-column="10" />
+        <state relative-caret-position="331">
+          <caret line="182" column="32" lean-forward="true" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
