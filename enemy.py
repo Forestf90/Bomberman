@@ -15,7 +15,7 @@ class Enemy:
         self.life = True
         self.load_animations()
         self.path = []
-        self. movment_path = []
+        self.movment_path = []
 
     def move(self):
 
@@ -24,9 +24,20 @@ class Enemy:
         elif self.direction == 1:
             self.posY += 1
         elif self.direction == 2:
-            self.posX += 1
+            self.posX -= 1
         elif self.direction == 3:
             self.posY -= 1
+
+    def make_move(self, map, bombs, explosions, enemy):
+
+        if self.posX % 4 == 0 and self.posY % 4 == 0 and len(self.movment_path) == 0:
+            self.movment_path.clear()
+            self.path.clear()
+            self.dfs(map, bombs, explosions, enemy)
+        else:
+            self.direction = self.movment_path[-1]
+            self.move()
+
 
     def plant_bomb(self):
         b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
@@ -47,25 +58,26 @@ class Enemy:
         #1 - unsafe
         #2 - destryable
         #3 - unreachable
-        for i in map:
-            for j in map[i]:
+        for i in range(len(map)):
+            grid.append([])
+            for j in range(len(map[i])):
                 if map[i][j] == 0:
-                    grid[i][j] = 0
+                    grid[i].append(0)
                 elif map[i][j] == 1:
-                    grid[i][j] = 3
+                    grid[i].append(3)
                 elif map[i][j] == 2:
-                    grid[i][j] = 2
+                    grid[i].append(2)
                 elif map[i][j] == 3:
-                    grid[i][j] = 3
+                    grid[i].append(3)
 
         new_path= []
-        new_path.append([self.posX, self.pozY])
+        new_path.append([int(self.posX/4), int(self.posY/4)])
         if self.bomb_limit == 0:
             self.dfs_rec(grid, 0, new_path)
         else:
             self.dfs_rec(grid, 2, new_path)
 
-        
+
 
     def dfs_rec(self, grid, end, path):
         last = path[-1]
@@ -80,12 +92,16 @@ class Enemy:
 
         if grid[last[0] + 1][last[1]] == 0 or grid[last[0] + 1][last[1]] == 1:
             path.append([last[0] + 1], [last[1]])
-        elif grid[last[0] - 1][last[1]] == end or grid[last[0] - 1][last[1]] == 1:
+            self.movment_path.append(0)
+        elif grid[last[0] - 1][last[1]] == 0 or grid[last[0] - 1][last[1]] == 1:
             path.append([last[0] - 1, last[1]])
-        elif grid[last[0]][last[1] + 1] == end or grid[last[0]][last[1] + 1] == 1:
+            self.movment_path.append(2)
+        elif grid[last[0]][last[1] + 1] == 0 or grid[last[0]][last[1] + 1] == 1:
             path.append([last[0], last[1] + 1])
-        elif grid[last[0]][last[1] - 1] == end or grid[last[0]][last[1] - 1] == 1:
+            self.movment_path.append(1)
+        elif grid[last[0]][last[1] - 1] == 0 or grid[last[0]][last[1] - 1] == 1:
             path.append([last[0], last[1] - 1])
+            self.movment_path.append(3)
 
         self.dfs_rec(grid, end, path)
 

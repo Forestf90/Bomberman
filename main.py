@@ -115,6 +115,7 @@ def main():
     generate_map()
     while player.life:
         dt = clock.tick(15)
+        en1.make_move(map, bombs, explosions, player)
         keys = pygame.key.get_pressed()
         temp = player.direction
         movement = False
