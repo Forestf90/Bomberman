@@ -1,5 +1,6 @@
 import pygame
-
+from bomb import Bomb
+from node import Node
 
 class Enemy:
     posX = 4*11
@@ -13,6 +14,23 @@ class Enemy:
     def __init__(self):
         self.life = True
         self.load_animations()
+        self.path = []
+        self. movment_path = []
+
+    def move(self):
+
+        if self.direction == 0:
+            self.posX += 1
+        elif self.direction == 1:
+            self.posY += 1
+        elif self.direction == 2:
+            self.posX += 1
+        elif self.direction == 3:
+            self.posY -= 1
+
+    def plant_bomb(self):
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
+        return b
 
     def check_death(self, exp):
 
@@ -20,6 +38,57 @@ class Enemy:
             for s in e.sectors:
                 if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
                     self.life = False
+
+    def dfs(self, map, bombs, explosions, enemy):
+
+        grid = []
+
+        #0 - safe
+        #1 - unsafe
+        #2 - destryable
+        #3 - unreachable
+        for i in map:
+            for j in map[i]:
+                if map[i][j] == 0:
+                    grid[i][j] = 0
+                elif map[i][j] == 1:
+                    grid[i][j] = 3
+                elif map[i][j] == 2:
+                    grid[i][j] = 2
+                elif map[i][j] == 3:
+                    grid[i][j] = 3
+
+        new_path= []
+        new_path.append([self.posX, self.pozY])
+        if self.bomb_limit == 0:
+            self.dfs_rec(grid, 0, new_path)
+        else:
+            self.dfs_rec(grid, 2, new_path)
+
+        
+
+    def dfs_rec(self, grid, end, path):
+        last = path[-1]
+        if grid[last[0] + 1][last[1]] == end:
+            return
+        elif grid[last[0] - 1][last[1]] == end:
+            return
+        elif grid[last[0]][last[1] + 1] == end:
+            return
+        elif grid[last[0]][last[1] - 1] == end:
+            return
+
+        if grid[last[0] + 1][last[1]] == 0 or grid[last[0] + 1][last[1]] == 1:
+            path.append([last[0] + 1], [last[1]])
+        elif grid[last[0] - 1][last[1]] == end or grid[last[0] - 1][last[1]] == 1:
+            path.append([last[0] - 1, last[1]])
+        elif grid[last[0]][last[1] + 1] == end or grid[last[0]][last[1] + 1] == 1:
+            path.append([last[0], last[1] + 1])
+        elif grid[last[0]][last[1] - 1] == end or grid[last[0]][last[1] - 1] == 1:
+            path.append([last[0], last[1] - 1])
+
+        self.dfs_rec(grid, end, path)
+
 
     def load_animations(self):
         front = []

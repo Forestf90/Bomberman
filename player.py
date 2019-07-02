@@ -3,6 +3,7 @@ import pygame, math
 from bomb import Bomb
 from explosion import Explosion
 
+
 class Player:
     posX = 4
     posY = 4
