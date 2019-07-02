@@ -3,11 +3,12 @@
 class Bomb:
     frame = 0
 
-    def __init__(self, r, x, y):
+    def __init__(self, r, x, y, bomber):
         self.range = r
         self.posX = x
         self.posY = y
         self.time = 3000
+        self.bomber = bomber
 
     def update(self, dt):
 

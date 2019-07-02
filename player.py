@@ -10,6 +10,7 @@ class Player:
     frame = 0
     animation = []
     range = 3
+    bomb_limit = 1
 
     # frontAnimation = []
     # backAnimation = []
@@ -59,7 +60,7 @@ class Player:
                 self.posY -= 1
 
     def plant_bomb(self):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4))
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
         return b
 
     def check_death(self, exp):

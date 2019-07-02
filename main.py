@@ -157,9 +157,12 @@ def main():
                 sys.exit(0)
             elif e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_SPACE:
+                    if player.bomb_limit == 0:
+                        continue
                     temp_bomb = player.plant_bomb()
                     bombs.append(temp_bomb)
                     map[temp_bomb.posX][temp_bomb.posY] = 3
+                    player.bomb_limit -= 1
 
         update_bombs(dt)
     game_over()
@@ -169,6 +172,7 @@ def update_bombs(dt):
     for b in bombs:
         b.update(dt)
         if b.time < 1:
+            b.bomber.bomb_limit += 1
             map[b.posX][b.posY] = 0
             exp_temp = Explosion(b.posX, b.posY, b.range)
             bombs.remove(b)
