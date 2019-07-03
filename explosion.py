@@ -20,7 +20,7 @@ class Explosion:
                 self.sectors.append([self.sourceX+x, self.sourceY])
             elif map[self.sourceX+x][self.sourceY] == 2:
                 self.sectors.append([self.sourceX+x, self.sourceY])
-                map[self.sourceX+x][self.sourceY] = 0
+                # map[self.sourceX+x][self.sourceY] = 0
                 break
         for x in range(1, self.range):
             if map[self.sourceX - x][self.sourceY] == 1:
@@ -29,7 +29,7 @@ class Explosion:
                 self.sectors.append([self.sourceX-x, self.sourceY])
             elif map[self.sourceX-x][self.sourceY] == 2:
                 self.sectors.append([self.sourceX-x, self.sourceY])
-                map[self.sourceX-x][self.sourceY] = 0
+                # map[self.sourceX-x][self.sourceY] = 0
                 break
         for x in range(1, self.range):
             if map[self.sourceX][self.sourceY + x] == 1:
@@ -38,7 +38,7 @@ class Explosion:
                 self.sectors.append([self.sourceX, self.sourceY+x])
             elif map[self.sourceX][self.sourceY+x] == 2:
                 self.sectors.append([self.sourceX, self.sourceY+x])
-                map[self.sourceX][self.sourceY+x] = 0
+                # map[self.sourceX][self.sourceY+x] = 0
                 break
         for x in range(1, self.range):
             if map[self.sourceX][self.sourceY - x] == 1:
@@ -47,7 +47,7 @@ class Explosion:
                 self.sectors.append([self.sourceX, self.sourceY-x])
             elif map[self.sourceX][self.sourceY - x] == 2:
                 self.sectors.append([self.sourceX, self.sourceY - x])
-                map[self.sourceX][self.sourceY - x] = 0
+                # map[self.sourceX][self.sourceY - x] = 0
                 break
         self.bomb_chain(bombs, map)
 
@@ -62,6 +62,11 @@ class Explosion:
                     map[x.posX][x.posY] = 0
                     bombs.remove(x)
                     self.explode(map, bombs)
+
+    def clear_sectors(self, map):
+
+        for i in self.sectors:
+            map[i[0]][i[1]] = 0
 
     def update(self, dt):
 

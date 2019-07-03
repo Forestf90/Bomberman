@@ -1,6 +1,7 @@
 import pygame
 from bomb import Bomb
 from node import Node
+from explosion import Explosion
 
 class Enemy:
     posX = 4*11
@@ -88,6 +89,13 @@ class Enemy:
                     grid[i].append(2)
                 elif map[i][j] == 3:
                     grid[i].append(1) #3
+
+        for b in bombs:
+            temp_ex = Explosion(b.posX, b.posY, b.range)
+            temp_ex.explode(map, bombs)
+
+            for x in temp_ex.sectors:
+                grid[x[0]][x[1]] = 1
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])

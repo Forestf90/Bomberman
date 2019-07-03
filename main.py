@@ -180,6 +180,7 @@ def update_bombs(dt):
             exp_temp = Explosion(b.posX, b.posY, b.range)
             bombs.remove(b)
             exp_temp.explode(map, bombs)
+            exp_temp.clear_sectors(map)
             explosions.append(exp_temp)
 
     player.check_death(explosions)
