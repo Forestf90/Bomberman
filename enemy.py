@@ -49,7 +49,7 @@ class Enemy:
             # self.movment_path.clear()
             # self.path.clear()
             if self.plant:
-                bombs.append(self.plant_bomb())
+                bombs.append(self.plant_bomb(map))
                 self.plant = False
                 map[int(self.posX/4)][int(self.posY/4)] = 3
             self.dfs(map, bombs, explosions, enemy)
@@ -57,9 +57,8 @@ class Enemy:
             self.direction = self.movment_path[0]
             self.move()
 
-
-    def plant_bomb(self):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
+    def plant_bomb(self, map):
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4),map, self)
         self.bomb_limit -= 1
         return b
 
@@ -91,10 +90,8 @@ class Enemy:
                     grid[i].append(1) #3
 
         for b in bombs:
-            temp_ex = Explosion(b.posX, b.posY, b.range)
-            temp_ex.explode(map, bombs)
-
-            for x in temp_ex.sectors:
+            b.get_range(map)
+            for x in b.sectors:
                 grid[x[0]][x[1]] = 1
 
         new_path = []

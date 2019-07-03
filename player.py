@@ -60,8 +60,8 @@ class Player:
             if map[tempx][tempy-1] == 0:
                 self.posY -= 1
 
-    def plant_bomb(self):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
+    def plant_bomb(self, map):
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), map, self)
         return b
 
     def check_death(self, exp):
