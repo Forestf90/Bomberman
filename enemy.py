@@ -96,16 +96,19 @@ class Enemy:
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
+        depth = 0
         if self.bomb_limit == 0:
-            self.dfs_rec(grid, 0, new_path)
+            self.dfs_rec(grid, 0, new_path, depth)
         else:
-            self.dfs_rec(grid, 2, new_path)
+            self.dfs_rec(grid, 2, new_path, depth)
 
         self.path = new_path
 
-    def dfs_rec(self, grid, end, path):
+    def dfs_rec(self, grid, end, path, depth):
 
         last = path[-1]
+        if depth > 50:
+            return
         if grid[last[0]][last[1]] == 0 and end == 0:
             return
         elif end == 2:
@@ -144,8 +147,8 @@ class Enemy:
         elif grid[last[0]][last[1] - 1] == 1:
             path.append([last[0], last[1] - 1])
             self.movment_path.append(2)
-
-        self.dfs_rec(grid, end, path)
+        depth += 1
+        self.dfs_rec(grid, end, path, depth)
 
     def load_animations(self):
         front = []
