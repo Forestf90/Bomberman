@@ -117,17 +117,31 @@ class Enemy:
                 return
 
         grid[last[0]][last[1]] = 9
-
-        if grid[last[0] + 1][last[1]] == 0 or grid[last[0] + 1][last[1]] == 1:
+        # safe
+        if grid[last[0] + 1][last[1]] == 0:
             path.append([last[0] + 1, last[1]])
             self.movment_path.append(1)
-        elif grid[last[0] - 1][last[1]] == 0 or grid[last[0] - 1][last[1]] == 1:
+        elif grid[last[0] - 1][last[1]] == 0:
             path.append([last[0] - 1, last[1]])
             self.movment_path.append(3)
-        elif grid[last[0]][last[1] + 1] == 0 or grid[last[0]][last[1] + 1] == 1:
+        elif grid[last[0]][last[1] + 1] == 0:
             path.append([last[0], last[1] + 1])
             self.movment_path.append(0)
-        elif grid[last[0]][last[1] - 1] == 0 or grid[last[0]][last[1] - 1] == 1:
+        elif grid[last[0]][last[1] - 1] == 0:
+            path.append([last[0], last[1] - 1])
+            self.movment_path.append(2)
+
+          #unsafe
+        if  grid[last[0] + 1][last[1]] == 1:
+            path.append([last[0] + 1, last[1]])
+            self.movment_path.append(1)
+        elif grid[last[0] - 1][last[1]] == 1:
+            path.append([last[0] - 1, last[1]])
+            self.movment_path.append(3)
+        elif grid[last[0]][last[1] + 1] == 1:
+            path.append([last[0], last[1] + 1])
+            self.movment_path.append(0)
+        elif grid[last[0]][last[1] - 1] == 1:
             path.append([last[0], last[1] - 1])
             self.movment_path.append(2)
 
