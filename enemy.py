@@ -80,28 +80,39 @@ class Enemy:
 
     def dfs(self, map, bombs, explosions, enemy):
 
-        grid = []
+        grid = [[0] * len(map) for r in range(len(map))]
 
         #0 - safe
         #1 - unsafe
         #2 - destryable
         #3 - unreachable
-        for i in range(len(map)):
-            grid.append([])
-            for j in range(len(map[i])):
-                if map[i][j] == 0:
-                    grid[i].append(0)
-                elif map[i][j] == 1:
-                    grid[i].append(3)
-                elif map[i][j] == 2:
-                    grid[i].append(2)
-                elif map[i][j] == 3:
-                    grid[i].append(1) #3
+        # for i in range(len(map)):
+        #     grid.append([])
+        #     for j in range(len(map[i])):
+        #         if map[i][j] == 0:
+        #             grid[i].append(0)
+        #         elif map[i][j] == 1:
+        #             grid[i].append(3)
+        #         elif map[i][j] == 2:
+        #             grid[i].append(2)
+        #         elif map[i][j] == 3:
+        #             grid[i].append(1) #3
 
         for b in bombs:
             b.get_range(map)
             for x in b.sectors:
                 grid[x[0]][x[1]] = 1
+
+        for e in explosions:
+            for s in e.sectors:
+                grid[s[0]][s[1]] = 1
+
+        for i in range(len(map)):
+            for j in range(len(map[i])):
+                if map[i][j] == 1:
+                    grid[i][j] = 3
+                elif map[i][j] == 2:
+                    grid[i][j] = 2
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
@@ -144,7 +155,7 @@ class Enemy:
             self.movment_path.append(2)
 
           #unsafe
-        if  grid[last[0] + 1][last[1]] == 1:
+        elif grid[last[0] + 1][last[1]] == 1:
             path.append([last[0] + 1, last[1]])
             self.movment_path.append(1)
         elif grid[last[0] - 1][last[1]] == 1:
@@ -166,7 +177,6 @@ class Enemy:
         right = []
         resize_width = 40
         resize_height = 40
-        #en = '1'
 
         f1 = pygame.image.load('images/enemy/e'+en+'f0.png')
         f2 = pygame.image.load('images/enemy/e'+en+'f1.png')
