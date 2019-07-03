@@ -19,7 +19,10 @@ pygame.display.set_caption('Bomberman')
 clock = pygame.time.Clock()
 
 player = Player()
-en1 = Enemy()
+en1 = Enemy(11, 11, '1')
+en2 = Enemy(1, 11, '2')
+en3 = Enemy(11, 1, '3')
+enemys =[en1, en2, en3]
 bombs = []
 explosions =[]
 
@@ -90,11 +93,12 @@ def draw():
                     (player.posX*(TILEWIDTH/4), player.posY*(TILEHEIGHT/4), TILEWIDTH, TILEHEIGHT))
     else:
         s.blit(TEXTLOSE, ((WINDOWWIDTH/2) - 30, (WINDOWHEIGHT/2) - 30))
-    if en1.life:
-        s.blit(en1.animation[en1.direction][en1.frame],
-               (en1.posX * (TILEWIDTH / 4), en1.posY * (TILEHEIGHT / 4), TILEWIDTH, TILEHEIGHT))
-        for sek in en1.path:
-            pygame.draw.rect(s, (255,0,0, 240), [sek[0] * TILEWIDTH, sek[1]* TILEHEIGHT, TILEWIDTH,TILEWIDTH], 1)
+    for en in enemys:
+        if en.life:
+            s.blit(en.animation[en.direction][en.frame],
+                   (en.posX * (TILEWIDTH / 4), en.posY * (TILEHEIGHT / 4), TILEWIDTH, TILEHEIGHT))
+            for sek in en.path:
+                pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILEWIDTH, sek[1] * TILEHEIGHT, TILEWIDTH, TILEWIDTH], 1)
 
     pygame.display.update()
 
@@ -117,7 +121,8 @@ def main():
     generate_map()
     while player.life:
         dt = clock.tick(15)
-        en1.make_move(map, bombs, explosions, player)
+        for en in enemys:
+            en.make_move(map, bombs, explosions, player)
         keys = pygame.key.get_pressed()
         temp = player.direction
         movement = False
@@ -183,7 +188,8 @@ def update_bombs(dt):
             explosions.append(exp_temp)
 
     player.check_death(explosions)
-    en1.check_death(explosions)
+    for en in enemys:
+        en.check_death(explosions)
     for e in explosions:
         e.update(dt)
         if e.time < 1:

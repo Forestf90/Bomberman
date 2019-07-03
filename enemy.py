@@ -3,21 +3,30 @@ from bomb import Bomb
 from node import Node
 from explosion import Explosion
 
-class Enemy:
-    posX = 4*11
-    posY = 4*11
-    direction = 0
-    frame = 0
-    animation = []
-    range = 3
-    bomb_limit = 1
-    plant = False
 
-    def __init__(self):
+class Enemy:
+    # posX = 4*11
+    # posY = 4*11
+    # direction = 0
+    # frame = 0
+    # animation = []
+    # range = 3
+    # bomb_limit = 1
+    # plant = False
+
+    def __init__(self, x, y, n):
         self.life = True
-        self.load_animations()
         self.path = []
         self.movment_path = []
+        self.posX = x*4
+        self.posY = y*4
+        self.direction = 0
+        self.frame = 0
+        self.animation = []
+        self.range = 3
+        self.bomb_limit = 1
+        self.plant = False
+        self.load_animations(n)
 
     def move(self):
 
@@ -150,14 +159,14 @@ class Enemy:
         depth += 1
         self.dfs_rec(grid, end, path, depth)
 
-    def load_animations(self):
+    def load_animations(self, en):
         front = []
         back = []
         left = []
         right = []
         resize_width = 40
         resize_height = 40
-        en = '1'
+        #en = '1'
 
         f1 = pygame.image.load('images/enemy/e'+en+'f0.png')
         f2 = pygame.image.load('images/enemy/e'+en+'f1.png')
