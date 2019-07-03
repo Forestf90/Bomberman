@@ -93,6 +93,8 @@ def draw():
     if en1.life:
         s.blit(en1.animation[en1.direction][en1.frame],
                (en1.posX * (TILEWIDTH / 4), en1.posY * (TILEHEIGHT / 4), TILEWIDTH, TILEHEIGHT))
+        for sek in en1.path:
+            pygame.draw.rect(s, (255,0,0, 240), [sek[0] * TILEWIDTH, sek[1]* TILEHEIGHT, TILEWIDTH,TILEWIDTH], 1)
 
     pygame.display.update()
 

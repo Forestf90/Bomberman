@@ -10,6 +10,7 @@ class Enemy:
     animation = []
     range = 3
     bomb_limit = 1
+    plant = False
 
     def __init__(self):
         self.life = True
@@ -29,9 +30,11 @@ class Enemy:
             self.posX -= 1
 
         if self.posX % 4 == 0 and self.posY % 4 == 0:
-            self.movment_path.clear()
-            self.path.clear()
-            
+            self.movment_path.pop(0)
+            self.path.pop(0)
+            # self.movment_path.clear()
+            # self.path.clear()
+
         if self.frame == 2:
             self.frame = 0
         else:
@@ -39,17 +42,24 @@ class Enemy:
 
     def make_move(self, map, bombs, explosions, enemy):
 
+        if not self.life:
+            return
         if len(self.movment_path) == 0:
             # self.movment_path.clear()
             # self.path.clear()
+            if self.plant:
+                bombs.append(self.plant_bomb())
+                self.plant = False
+                map[int(self.posX/4)][int(self.posY/4)] = 3
             self.dfs(map, bombs, explosions, enemy)
         else:
-            self.direction = self.movment_path[-1]
+            self.direction = self.movment_path[0]
             self.move()
 
 
     def plant_bomb(self):
         b = Bomb(self.range, round(self.posX/4), round(self.posY/4), self)
+        self.bomb_limit -= 1
         return b
 
     def check_death(self, exp):
@@ -77,30 +87,34 @@ class Enemy:
                 elif map[i][j] == 2:
                     grid[i].append(2)
                 elif map[i][j] == 3:
-                    grid[i].append(3)
+                    grid[i].append(1) #3
 
-        new_path= []
+        new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
         if self.bomb_limit == 0:
             self.dfs_rec(grid, 0, new_path)
         else:
             self.dfs_rec(grid, 2, new_path)
 
-
+        self.path = new_path
 
     def dfs_rec(self, grid, end, path):
+
         last = path[-1]
-        if grid[last[0] + 1][last[1]] == end:
+        if grid[last[0]][last[1]] == 0 and end == 0:
             return
-        elif grid[last[0] - 1][last[1]] == end:
-            return
-        elif grid[last[0]][last[1] + 1] == end:
-            return
-        elif grid[last[0]][last[1] - 1] == end:
-            return
+        elif end == 2:
+            if grid[last[0] + 1][last[1]] == end or grid[last[0] - 1][last[1]] == end \
+                    or grid[last[0]][last[1] + 1] == end \
+                    or grid[last[0]][last[1] - 1] == end:
+                if len(path) == 1 and end == 2:
+                    self.plant = True
+                return
+
+        grid[last[0]][last[1]] = 9
 
         if grid[last[0] + 1][last[1]] == 0 or grid[last[0] + 1][last[1]] == 1:
-            path.append([last[0] + 1], [last[1]])
+            path.append([last[0] + 1, last[1]])
             self.movment_path.append(1)
         elif grid[last[0] - 1][last[1]] == 0 or grid[last[0] - 1][last[1]] == 1:
             path.append([last[0] - 1, last[1]])
@@ -113,7 +127,6 @@ class Enemy:
             self.movment_path.append(2)
 
         self.dfs_rec(grid, end, path)
-
 
     def load_animations(self):
         front = []
