@@ -29,7 +29,7 @@ class Enemy:
         self.plant = False
         self.load_animations(n)
 
-    def move(self):
+    def move(self, map, bombs, explosions, enemy):
 
         if self.direction == 0:
             self.posY += 1
@@ -43,8 +43,12 @@ class Enemy:
         if self.posX % 4 == 0 and self.posY % 4 == 0:
             self.movment_path.pop(0)
             self.path.pop(0)
-            # self.movment_path.clear()
-            # self.path.clear()
+            if len(self.path) >1:
+                grid = self.create_grid(map, bombs, explosions, enemy)
+                next = self.path[1]
+                if grid[next[0]][next[1]] > 1:
+                    self.movment_path.clear()
+                    self.path.clear()
 
         if self.frame == 2:
             self.frame = 0
@@ -62,10 +66,10 @@ class Enemy:
                 bombs.append(self.plant_bomb(map))
                 self.plant = False
                 map[int(self.posX/4)][int(self.posY/4)] = 3
-            self.dfs(map, bombs, explosions, enemy)
+            self.dfs(self.create_grid(map, bombs, explosions, enemy))
         else:
             self.direction = self.movment_path[0]
-            self.move()
+            self.move(map, bombs, explosions, enemy)
 
     def plant_bomb(self, map):
         b = Bomb(self.range, round(self.posX/4), round(self.posY/4),map, self)
@@ -79,49 +83,8 @@ class Enemy:
                 if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
                     self.life = False
 
-    def dfs(self, map, bombs, explosions, enemys):
+    def dfs(self, grid):
 
-        grid = [[0] * len(map) for r in range(len(map))]
-
-        #0 - safe
-        #1 - unsafe
-        #2 - destryable
-        #3 - unreachable
-        # for i in range(len(map)):
-        #     grid.append([])
-        #     for j in range(len(map[i])):
-        #         if map[i][j] == 0:
-        #             grid[i].append(0)
-        #         elif map[i][j] == 1:
-        #             grid[i].append(3)
-        #         elif map[i][j] == 2:
-        #             grid[i].append(2)
-        #         elif map[i][j] == 3:
-        #             grid[i].append(1) #3
-
-        for b in bombs:
-            b.get_range(map)
-            for x in b.sectors:
-                grid[x[0]][x[1]] = 1
-
-        for e in explosions:
-            for s in e.sectors:
-                grid[s[0]][s[1]] = 3
-
-        for i in range(len(map)):
-            for j in range(len(map[i])):
-                if map[i][j] == 1:
-                    grid[i][j] = 3
-                elif map[i][j] == 2:
-                    grid[i][j] = 2
-
-        for x in enemys:
-            if x == self:
-                continue
-            elif not x.life:
-                continue
-            else:
-                grid[int(x.posX/4)][int(x.posY/4)] = 2
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
@@ -186,6 +149,39 @@ class Enemy:
         depth += 1
         self.dfs_rec(grid, end, path, depth)
 
+    def create_grid(self, map, bombs, explosions, enemys):
+        grid = [[0] * len(map) for r in range(len(map))]
+
+        # 0 - safe
+        # 1 - unsafe
+        # 2 - destryable
+        # 3 - unreachable
+
+        for b in bombs:
+            b.get_range(map)
+            for x in b.sectors:
+                grid[x[0]][x[1]] = 1
+
+        for e in explosions:
+            for s in e.sectors:
+                grid[s[0]][s[1]] = 3
+
+        for i in range(len(map)):
+            for j in range(len(map[i])):
+                if map[i][j] == 1:
+                    grid[i][j] = 3
+                elif map[i][j] == 2:
+                    grid[i][j] = 2
+
+        for x in enemys:
+            if x == self:
+                continue
+            elif not x.life:
+                continue
+            else:
+                grid[int(x.posX / 4)][int(x.posY / 4)] = 2
+
+        return grid
     def load_animations(self, en):
         front = []
         back = []
