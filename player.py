@@ -3,6 +3,7 @@ import pygame, math
 from bomb import Bomb
 from explosion import Explosion
 
+
 class Player:
     posX = 4
     posY = 4
@@ -10,6 +11,7 @@ class Player:
     frame = 0
     animation = []
     range = 3
+    bomb_limit = 1
 
     # frontAnimation = []
     # backAnimation = []
@@ -21,9 +23,24 @@ class Player:
         self.life = True
         self.load_animations()
 
-    def move(self, dx, dy, map):
+    def move(self, dx, dy, grid, enemys):
         tempx = int(self.posX/4)
         tempy = int(self.posY/4)
+
+        map =[]
+
+        for i in range(len(grid)):
+            map.append([])
+            for j in range(len(grid[i])):
+                map[i].append(grid[i][j])
+
+        for x in enemys:
+            if x == self:
+                continue
+            elif not x.life:
+                continue
+            else:
+                map[int(x.posX/4)][int(x.posY/4)] = 2
 
         if self.posX % 4 != 0 and dx == 0:
             if self.posX % 4 == 1:
@@ -58,8 +75,8 @@ class Player:
             if map[tempx][tempy-1] == 0:
                 self.posY -= 1
 
-    def plant_bomb(self):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4))
+    def plant_bomb(self, map):
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), map, self)
         return b
 
     def check_death(self, exp):
