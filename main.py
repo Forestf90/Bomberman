@@ -23,6 +23,7 @@ en1 = Enemy(11, 11, '1')
 en2 = Enemy(1, 11, '2')
 en3 = Enemy(11, 1, '3')
 enemys =[en1, en2, en3]
+ene_blocks = [en1, en2, en3, player]
 bombs = []
 explosions =[]
 
@@ -122,29 +123,29 @@ def main():
     while player.life:
         dt = clock.tick(15)
         for en in enemys:
-            en.make_move(map, bombs, explosions, player)
+            en.make_move(map, bombs, explosions, ene_blocks)
         keys = pygame.key.get_pressed()
         temp = player.direction
         movement = False
         if keys[pygame.K_DOWN]:
             temp = 0
             # player.posY += 1
-            player.move(0, 1, map)
+            player.move(0, 1, map, ene_blocks)
             movement = True
         elif keys[pygame.K_RIGHT]:
             temp = 1
             # player.posX += 1
-            player.move(1, 0, map)
+            player.move(1, 0, map, ene_blocks)
             movement = True
         elif keys[pygame.K_UP]:
             temp = 2
             # player.posY -= 1
-            player.move(0, -1, map)
+            player.move(0, -1, map, ene_blocks)
             movement = True
         elif keys[pygame.K_LEFT]:
             temp = 3
             # player.posX -= 1
-            player.move(-1, 0, map)
+            player.move(-1, 0, map, ene_blocks)
             movement = True
         if temp != player.direction:
             player.frame = 0

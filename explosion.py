@@ -20,10 +20,11 @@ class Explosion:
         for s in self.sectors:
             for x in bombs:
                 if x.posX == s[0] and x.posY == s[1]:
-                    self.sourceX = x.posX
-                    self.sourceY = x.posY
-                    self.range = x.range
+                    # self.sourceX = x.posX
+                    # self.sourceY = x.posY
+                    # self.range = x.range
                     map[x.posX][x.posY] = 0
+                    x.bomber.bomb_limit += 1
                     self.explode(map, bombs, x)
 
     def clear_sectors(self, map):

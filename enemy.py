@@ -78,7 +78,7 @@ class Enemy:
                 if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
                     self.life = False
 
-    def dfs(self, map, bombs, explosions, enemy):
+    def dfs(self, map, bombs, explosions, enemys):
 
         grid = [[0] * len(map) for r in range(len(map))]
 
@@ -105,7 +105,7 @@ class Enemy:
 
         for e in explosions:
             for s in e.sectors:
-                grid[s[0]][s[1]] = 1
+                grid[s[0]][s[1]] = 3
 
         for i in range(len(map)):
             for j in range(len(map[i])):
@@ -113,6 +113,14 @@ class Enemy:
                     grid[i][j] = 3
                 elif map[i][j] == 2:
                     grid[i][j] = 2
+
+        for x in enemys:
+            if x == self:
+                continue
+            elif not x.life:
+                continue
+            else:
+                grid[int(x.posX/4)][int(x.posY/4)] = 2
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
