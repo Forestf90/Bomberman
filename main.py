@@ -203,6 +203,8 @@ def game_over():
     while True:
         dt = clock.tick(15)
         update_bombs(dt)
+        for en in enemys:
+            en.make_move(map, bombs, explosions, ene_blocks)
         draw()
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
