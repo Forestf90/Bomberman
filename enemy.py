@@ -161,6 +161,8 @@ class Enemy:
             b.get_range(map)
             for x in b.sectors:
                 grid[x[0]][x[1]] = 1
+            grid[b.posX][b.posY] = 3
+
 
         for e in explosions:
             for s in e.sectors:
