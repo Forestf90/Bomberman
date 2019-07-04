@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from bomb import Bomb
 from node import Node
 from explosion import Explosion
@@ -13,6 +13,7 @@ class Enemy:
     # range = 3
     # bomb_limit = 1
     # plant = False
+    dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
     def __init__(self, x, y, n):
         self.life = True
@@ -135,7 +136,7 @@ class Enemy:
     def dfs_rec(self, grid, end, path, depth):
 
         last = path[-1]
-        if depth > 50:
+        if depth > 100:
             return
         if grid[last[0]][last[1]] == 0 and end == 0:
             return
@@ -148,33 +149,40 @@ class Enemy:
                 return
 
         grid[last[0]][last[1]] = 9
+
+        random.shuffle(self.dire)
+
         # safe
-        if grid[last[0] + 1][last[1]] == 0:
-            path.append([last[0] + 1, last[1]])
-            self.movment_path.append(1)
-        elif grid[last[0] - 1][last[1]] == 0:
-            path.append([last[0] - 1, last[1]])
-            self.movment_path.append(3)
-        elif grid[last[0]][last[1] + 1] == 0:
-            path.append([last[0], last[1] + 1])
-            self.movment_path.append(0)
-        elif grid[last[0]][last[1] - 1] == 0:
-            path.append([last[0], last[1] - 1])
-            self.movment_path.append(2)
+        if grid[last[0] + self.dire[0][0]][last[1] + self.dire[0][1]] == 0:
+            path.append([last[0] + self.dire[0][0], last[1] + self.dire[0][1]])
+            self.movment_path.append(self.dire[0][2])
+        elif grid[last[0] + self.dire[1][0]][last[1] + self.dire[1][1]] == 0:
+            path.append([last[0] + self.dire[1][0], last[1] + self.dire[1][1]])
+            self.movment_path.append(self.dire[1][2])
+        elif grid[last[0] + self.dire[2][0]][last[1] + self.dire[2][1]] == 0:
+            path.append([last[0] + self.dire[2][0], last[1] + self.dire[2][1]])
+            self.movment_path.append(self.dire[2][2])
+        elif grid[last[0] + self.dire[3][0]][last[1] + self.dire[3][1]] == 0:
+            path.append([last[0] + self.dire[3][0], last[1] + self.dire[3][1]])
+            self.movment_path.append(self.dire[3][2])
 
           #unsafe
-        elif grid[last[0] + 1][last[1]] == 1:
-            path.append([last[0] + 1, last[1]])
-            self.movment_path.append(1)
-        elif grid[last[0] - 1][last[1]] == 1:
-            path.append([last[0] - 1, last[1]])
-            self.movment_path.append(3)
-        elif grid[last[0]][last[1] + 1] == 1:
-            path.append([last[0], last[1] + 1])
-            self.movment_path.append(0)
-        elif grid[last[0]][last[1] - 1] == 1:
-            path.append([last[0], last[1] - 1])
-            self.movment_path.append(2)
+        elif grid[last[0] + self.dire[0][0]][last[1] + self.dire[0][1]] == 1:
+            path.append([last[0] + self.dire[0][0], last[1] + self.dire[0][1]])
+            self.movment_path.append(self.dire[0][2])
+        elif grid[last[0] + self.dire[1][0]][last[1] + self.dire[1][1]] == 1:
+            path.append([last[0] + self.dire[1][0], last[1] + self.dire[1][1]])
+            self.movment_path.append(self.dire[1][2])
+        elif grid[last[0] + self.dire[2][0]][last[1] + self.dire[2][1]] == 1:
+            path.append([last[0] + self.dire[2][0], last[1] + self.dire[2][1]])
+            self.movment_path.append(self.dire[2][2])
+        elif grid[last[0] + self.dire[3][0]][last[1] + self.dire[3][1]] == 1:
+            path.append([last[0] + self.dire[3][0], last[1] + self.dire[3][1]])
+            self.movment_path.append(self.dire[3][2])
+        else:
+            if len(self.movment_path) > 0:
+                path.pop(0)
+                self.movment_path.pop(0)
         depth += 1
         self.dfs_rec(grid, end, path, depth)
 
