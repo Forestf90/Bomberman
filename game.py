@@ -11,7 +11,7 @@ WINDOWHEIGHT = 13*TILEHEIGHT
 
 BACKGROUND = (107, 142, 35)
 
-pygame.init()
+#pygame.init()
 s = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Bomberman')
 
@@ -211,4 +211,4 @@ def game_over():
                 sys.exit(0)
 
 
-main()
+#main()
