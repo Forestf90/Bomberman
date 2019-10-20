@@ -11,21 +11,16 @@ WINDOWHEIGHT = 13*TILEHEIGHT
 
 BACKGROUND = (107, 142, 35)
 
-#pygame.init()
-s = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-pygame.display.set_caption('Bomberman')
 
+s = None
 
-clock = pygame.time.Clock()
+clock = None
 
-player = Player()
-en1 = Enemy(11, 11, '1')
-en2 = Enemy(1, 11, '2')
-en3 = Enemy(11, 1, '3')
-enemys =[en1, en2, en3]
-ene_blocks = [en1, en2, en3, player]
+player = None
+enemys = []
+ene_blocks = []
 bombs = []
-explosions =[]
+explosions = []
 
 map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -41,41 +36,81 @@ map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-grass_img = pygame.image.load('images/terrain/grass.png')
-grass_img = pygame.transform.scale(grass_img, (TILEWIDTH, TILEHEIGHT))
+grass_img = None
+block_img = None
+box_img = None
+bomb1_img = None
+bomb2_img = None
+bomb3_img = None
+explosion1_img = None
+explosion2_img = None
+explosion3_img = None
 
-block_img = pygame.image.load('images/terrain/block.png')
-block_img = pygame.transform.scale(block_img, (TILEWIDTH, TILEHEIGHT))
 
-box_img = pygame.image.load('images/terrain/box.png')
-box_img = pygame.transform.scale(box_img, (TILEWIDTH, TILEHEIGHT))
-
-bomb1_img = pygame.image.load('images/bomb/1.png')
-bomb1_img = pygame.transform.scale(bomb1_img, (TILEWIDTH, TILEHEIGHT))
-
-bomb2_img = pygame.image.load('images/bomb/2.png')
-bomb2_img = pygame.transform.scale(bomb2_img, (TILEWIDTH, TILEHEIGHT))
-
-bomb3_img = pygame.image.load('images/bomb/3.png')
-bomb3_img = pygame.transform.scale(bomb3_img, (TILEWIDTH, TILEHEIGHT))
-
-explosion1_img = pygame.image.load('images/explosion/1.png')
-explosion1_img = pygame.transform.scale(explosion1_img, (TILEWIDTH, TILEHEIGHT))
-
-explosion2_img = pygame.image.load('images/explosion/2.png')
-explosion2_img = pygame.transform.scale(explosion2_img, (TILEWIDTH, TILEHEIGHT))
-
-explosion3_img = pygame.image.load('images/explosion/3.png')
-explosion3_img = pygame.transform.scale(explosion3_img, (TILEWIDTH, TILEHEIGHT))
-
-terrain_images = [grass_img, block_img, box_img, grass_img]
-bomb_images = [bomb1_img, bomb2_img, bomb3_img]
-explosion_images = [explosion1_img, explosion2_img, explosion3_img]
+terrain_images = []
+bomb_images = []
+explosion_images = []
 
 pygame.font.init()
 font = pygame.font.SysFont('Comic Sans MS', 30)
 TEXTLOSE = font.render('GAME OVER', False, (0, 0, 0))
 TEXTWIN = font.render('WIN', False, (0, 0, 0))
+
+def game_init():
+
+    global s
+    s = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+    pygame.display.set_caption('Bomberman')
+
+    global clock
+    clock = pygame.time.Clock()
+
+    global player
+    player = Player()
+    en1 = Enemy(11, 11, '1')
+    en2 = Enemy(1, 11, '2')
+    en3 = Enemy(11, 1, '3')
+    global enemys
+    enemys = [en1, en2, en3]
+    global ene_blocks
+    ene_blocks = [en1, en2, en3, player]
+
+    global grass_img
+    grass_img = pygame.image.load('images/terrain/grass.png')
+    grass_img = pygame.transform.scale(grass_img, (TILEWIDTH, TILEHEIGHT))
+
+    global block_img
+    block_img = pygame.image.load('images/terrain/block.png')
+    block_img = pygame.transform.scale(block_img, (TILEWIDTH, TILEHEIGHT))
+    global box_img
+    box_img = pygame.image.load('images/terrain/box.png')
+    box_img = pygame.transform.scale(box_img, (TILEWIDTH, TILEHEIGHT))
+    global bomb1_img
+    bomb1_img = pygame.image.load('images/bomb/1.png')
+    bomb1_img = pygame.transform.scale(bomb1_img, (TILEWIDTH, TILEHEIGHT))
+    global bomb2_img
+    bomb2_img = pygame.image.load('images/bomb/2.png')
+    bomb2_img = pygame.transform.scale(bomb2_img, (TILEWIDTH, TILEHEIGHT))
+    global bomb3_img
+    bomb3_img = pygame.image.load('images/bomb/3.png')
+    bomb3_img = pygame.transform.scale(bomb3_img, (TILEWIDTH, TILEHEIGHT))
+    global explosion1_img
+    explosion1_img = pygame.image.load('images/explosion/1.png')
+    explosion1_img = pygame.transform.scale(explosion1_img, (TILEWIDTH, TILEHEIGHT))
+    global explosion2_img
+    explosion2_img = pygame.image.load('images/explosion/2.png')
+    explosion2_img = pygame.transform.scale(explosion2_img, (TILEWIDTH, TILEHEIGHT))
+    global explosion3_img
+    explosion3_img = pygame.image.load('images/explosion/3.png')
+    explosion3_img = pygame.transform.scale(explosion3_img, (TILEWIDTH, TILEHEIGHT))
+    global terrain_images
+    terrain_images = [grass_img, block_img, box_img, grass_img]
+    global bomb_images
+    bomb_images = [bomb1_img, bomb2_img, bomb3_img]
+    global explosion_images
+    explosion_images = [explosion1_img, explosion2_img, explosion3_img]
+
+    main()
 
 def draw():
     s.fill(BACKGROUND)
