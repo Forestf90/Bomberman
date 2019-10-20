@@ -11,7 +11,8 @@ WINDOW_SIZE = (13*40, 13*40)
 
 clock = None
 main_menu = None
-
+algo = ["DFS", "BFS"]
+en1_alg = "BFS"
 surface = pygame.display.set_mode(WINDOW_SIZE)
 
 
@@ -61,6 +62,7 @@ def menu_loop():
                                    window_height=WINDOW_SIZE[1],
                                    window_width=WINDOW_SIZE[0]
                                    )
+    play_options.add_selector("Algoritm",algo ,en1_alg)
     play_options.add_option('Back', pygameMenu.events.BACK)
     play_menu.add_option('Start',  # When pressing return -> play(DIFFICULTY[0], font)
                          game.game_init,
