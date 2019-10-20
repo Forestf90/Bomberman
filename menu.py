@@ -12,7 +12,7 @@ WINDOW_SIZE = (13*40, 13*40)
 clock = None
 main_menu = None
 algo = ["DFS", "BFS"]
-en1_alg = "BFS"
+en1_alg = 0
 surface = pygame.display.set_mode(WINDOW_SIZE)
 
 
@@ -55,14 +55,18 @@ def menu_loop():
                                    menu_alpha=100,
                                    menu_color=MENU_BACKGROUND_COLOR,
                                    menu_color_title=MENU_TITLE_COLOR,
-                                   menu_height=int(WINDOW_SIZE[1] * 0.5),
+                                   menu_height=int(WINDOW_SIZE[1] * 0.7),
                                    menu_width=int(WINDOW_SIZE[0] * 0.7),
                                    option_shadow=False,
                                    title='Options',
                                    window_height=WINDOW_SIZE[1],
                                    window_width=WINDOW_SIZE[0]
                                    )
-    play_options.add_selector("Algoritm",algo ,en1_alg)
+    play_options.add_selector("Character 1", [("Player", 2), ("DFS", 0), ("BFS", 1)])
+    play_options.add_selector("Character 2", [("DFS", 0), ("BFS", 1)])
+    play_options.add_selector("Character 3", [("DFS", 0), ("BFS", 1)])
+    play_options.add_selector("Character 4", [("DFS", 0), ("BFS", 1)])
+    play_options.add_selector("Show path", [("Yes", True), ("No", False)])
     play_options.add_option('Back', pygameMenu.events.BACK)
     play_menu.add_option('Start',  # When pressing return -> play(DIFFICULTY[0], font)
                          game.game_init,
@@ -70,7 +74,7 @@ def menu_loop():
                          # pygame.font.Font(pygameMenu.font.FONT_FRANCHISE, 30)
                          )
 
-    play_menu.add_option('Another menu', play_options)
+    play_menu.add_option('Options', play_options)
     play_menu.add_option('Return to main menu', pygameMenu.events.BACK)
     # About menu
     about_menu = pygameMenu.TextMenu(surface,
