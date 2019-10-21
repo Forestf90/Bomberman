@@ -228,7 +228,6 @@ def update_bombs(dt):
             exp_temp.explode(grid, bombs, b)
             exp_temp.clear_sectors(grid)
             explosions.append(exp_temp)
-
     player.check_death(explosions)
     for en in enemy_list:
         en.check_death(explosions)

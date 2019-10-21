@@ -80,7 +80,6 @@ class Player:
         return b
 
     def check_death(self, exp):
-
         for e in exp:
             for s in e.sectors:
                 if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:

@@ -1,4 +1,6 @@
-import pygame, pygameMenu
+import pygame
+import pygameMenu
+
 import game
 
 COLOR_BACKGROUND = (153, 153, 255)
@@ -7,7 +9,7 @@ COLOR_WHITE = (255, 255, 255)
 FPS = 60.0
 MENU_BACKGROUND_COLOR = (102, 102, 153)
 MENU_TITLE_COLOR = (51, 51, 255)
-WINDOW_SIZE = (13*40, 13*40)
+WINDOW_SIZE = (13 * 40, 13 * 40)
 
 clock = None
 main_menu = None
@@ -22,7 +24,6 @@ def main_background():
 
 
 def menu_loop():
-
     pygame.init()
 
     pygame.display.set_caption('Bomberman')
