@@ -20,6 +20,7 @@ def main_background():
     global surface
     surface.fill(COLOR_BACKGROUND)
 
+
 def menu_loop():
 
     pygame.init()
@@ -145,8 +146,6 @@ def menu_loop():
 
         # Flip surface
         pygame.display.flip()
-
-
 
 
 menu_loop()

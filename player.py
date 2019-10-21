@@ -21,13 +21,13 @@ class Player:
 
     def __init__(self):
         self.life = True
-        self.load_animations()
+        #self.load_animations()
 
     def move(self, dx, dy, grid, enemys):
         tempx = int(self.posX/4)
         tempy = int(self.posY/4)
 
-        map =[]
+        map = []
 
         for i in range(len(grid)):
             map.append([])

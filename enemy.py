@@ -15,10 +15,10 @@ class Enemy:
     # plant = False
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
-    def __init__(self, x, y, n):
+    def __init__(self, x, y):
         self.life = True
         self.path = []
-        self.movment_path = []
+        self.movement_path = []
         self.posX = x*4
         self.posY = y*4
         self.direction = 0
@@ -27,7 +27,7 @@ class Enemy:
         self.range = 3
         self.bomb_limit = 1
         self.plant = False
-        self.load_animations(n)
+        #self.load_animations(n)
 
     def move(self, map, bombs, explosions, enemy):
 
@@ -41,13 +41,13 @@ class Enemy:
             self.posX -= 1
 
         if self.posX % 4 == 0 and self.posY % 4 == 0:
-            self.movment_path.pop(0)
+            self.movement_path.pop(0)
             self.path.pop(0)
             if len(self.path) >1:
                 grid = self.create_grid(map, bombs, explosions, enemy)
                 next = self.path[1]
                 if grid[next[0]][next[1]] > 1:
-                    self.movment_path.clear()
+                    self.movement_path.clear()
                     self.path.clear()
 
         if self.frame == 2:
@@ -59,7 +59,7 @@ class Enemy:
 
         if not self.life:
             return
-        if len(self.movment_path) == 0:
+        if len(self.movement_path) == 0:
             # self.movment_path.clear()
             # self.path.clear()
             if self.plant:
@@ -68,7 +68,7 @@ class Enemy:
                 map[int(self.posX/4)][int(self.posY/4)] = 3
             self.dfs(self.create_grid(map, bombs, explosions, enemy))
         else:
-            self.direction = self.movment_path[0]
+            self.direction = self.movement_path[0]
             self.move(map, bombs, explosions, enemy)
 
     def plant_bomb(self, map):
@@ -84,7 +84,6 @@ class Enemy:
                     self.life = False
 
     def dfs(self, grid):
-
 
         new_path = []
         new_path.append([int(self.posX/4), int(self.posY/4)])
@@ -118,34 +117,34 @@ class Enemy:
         # safe
         if grid[last[0] + self.dire[0][0]][last[1] + self.dire[0][1]] == 0:
             path.append([last[0] + self.dire[0][0], last[1] + self.dire[0][1]])
-            self.movment_path.append(self.dire[0][2])
+            self.movement_path.append(self.dire[0][2])
         elif grid[last[0] + self.dire[1][0]][last[1] + self.dire[1][1]] == 0:
             path.append([last[0] + self.dire[1][0], last[1] + self.dire[1][1]])
-            self.movment_path.append(self.dire[1][2])
+            self.movement_path.append(self.dire[1][2])
         elif grid[last[0] + self.dire[2][0]][last[1] + self.dire[2][1]] == 0:
             path.append([last[0] + self.dire[2][0], last[1] + self.dire[2][1]])
-            self.movment_path.append(self.dire[2][2])
+            self.movement_path.append(self.dire[2][2])
         elif grid[last[0] + self.dire[3][0]][last[1] + self.dire[3][1]] == 0:
             path.append([last[0] + self.dire[3][0], last[1] + self.dire[3][1]])
-            self.movment_path.append(self.dire[3][2])
+            self.movement_path.append(self.dire[3][2])
 
           #unsafe
         elif grid[last[0] + self.dire[0][0]][last[1] + self.dire[0][1]] == 1:
             path.append([last[0] + self.dire[0][0], last[1] + self.dire[0][1]])
-            self.movment_path.append(self.dire[0][2])
+            self.movement_path.append(self.dire[0][2])
         elif grid[last[0] + self.dire[1][0]][last[1] + self.dire[1][1]] == 1:
             path.append([last[0] + self.dire[1][0], last[1] + self.dire[1][1]])
-            self.movment_path.append(self.dire[1][2])
+            self.movement_path.append(self.dire[1][2])
         elif grid[last[0] + self.dire[2][0]][last[1] + self.dire[2][1]] == 1:
             path.append([last[0] + self.dire[2][0], last[1] + self.dire[2][1]])
-            self.movment_path.append(self.dire[2][2])
+            self.movement_path.append(self.dire[2][2])
         elif grid[last[0] + self.dire[3][0]][last[1] + self.dire[3][1]] == 1:
             path.append([last[0] + self.dire[3][0], last[1] + self.dire[3][1]])
-            self.movment_path.append(self.dire[3][2])
+            self.movement_path.append(self.dire[3][2])
         else:
-            if len(self.movment_path) > 0:
+            if len(self.movement_path) > 0:
                 path.pop(0)
-                self.movment_path.pop(0)
+                self.movement_path.pop(0)
         depth += 1
         self.dfs_rec(grid, end, path, depth)
 
@@ -162,7 +161,6 @@ class Enemy:
             for x in b.sectors:
                 grid[x[0]][x[1]] = 1
             grid[b.posX][b.posY] = 3
-
 
         for e in explosions:
             for s in e.sectors:
@@ -184,6 +182,7 @@ class Enemy:
                 grid[int(x.posX / 4)][int(x.posY / 4)] = 2
 
         return grid
+
     def load_animations(self, en):
         front = []
         back = []
