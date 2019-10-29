@@ -19,6 +19,20 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(1, bomb.posY)
         self.assertEqual(3, bomb.range)
 
+    def test_get_range(self):
+
+        bomb = game.player.plant_bomb(game.grid)
+
+        self.assertEqual(5, len(bomb.sectors))
+        self.assertEqual(True, [1, 1] in bomb.sectors)
+        self.assertEqual(True, [1, 2] in bomb.sectors)
+        self.assertEqual(True, [2, 1] in bomb.sectors)
+        self.assertEqual(True, [1, 3] in bomb.sectors)
+        self.assertEqual(True, [3, 1] in bomb.sectors)
+
+        self.assertEqual(False, [1, 0] in bomb.sectors)
+        self.assertEqual(False, [0, 1] in bomb.sectors)
+
     def test_bomb_explode(self):
         # en = Enemy(11, 11)
         # game.player = Player()
