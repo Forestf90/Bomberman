@@ -49,16 +49,6 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(0, len(game.bombs))
         self.assertEqual(1, len(game.explosions))
 
-    def test_death(self):
-        bomb = Bomb(3, 1, 2, game.grid, game.player)
-        game.bombs.append(bomb)
-        game.update_bombs(1500)
-        self.assertEqual(True, game.player.life)
-        self.assertEqual(0, len(game.explosions))
-
-        game.update_bombs(1501)
-        self.assertEqual(False, game.player.life)
-        self.assertEqual(0, len(game.explosions))
 
 
 if __name__ == '__main__':
