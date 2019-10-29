@@ -15,7 +15,13 @@ clock = None
 main_menu = None
 algo = ["DFS", "BFS"]
 en1_alg = 0
+show_path = None
 surface = pygame.display.set_mode(WINDOW_SIZE)
+
+
+def change_path(value, c):
+    global show_path
+    show_path = c
 
 
 def main_background():
@@ -68,10 +74,12 @@ def menu_loop():
     play_options.add_selector("Character 2", [("DFS", 0), ("BFS", 1)])
     play_options.add_selector("Character 3", [("DFS", 0), ("BFS", 1)])
     play_options.add_selector("Character 4", [("DFS", 0), ("BFS", 1)])
-    play_options.add_selector("Show path", [("Yes", True), ("No", False)])
+    play_options.add_selector("Show path", [("Yes", True), ("No", False)], "", 0, "", change_path)
+
     play_options.add_option('Back', pygameMenu.events.BACK)
     play_menu.add_option('Start',  # When pressing return -> play(DIFFICULTY[0], font)
                          game.game_init,
+                         show_path
                          # DIFFICULTY,
                          # pygame.font.Font(pygameMenu.font.FONT_FRANCHISE, 30)
                          )
@@ -144,7 +152,7 @@ def menu_loop():
 
         # Main menu
         main_menu.mainloop(events)
-
+        print(show_path)
         # Flip surface
         pygame.display.flip()
 

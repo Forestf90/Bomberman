@@ -13,6 +13,7 @@ BACKGROUND = (107, 142, 35)
 
 
 s = None
+show_path = True
 
 clock = None
 
@@ -57,7 +58,12 @@ TEXT_LOSE = font.render('GAME OVER', False, (0, 0, 0))
 TEXT_WIN = font.render('WIN', False, (0, 0, 0))
 
 
-def game_init():
+def game_init(path):
+    print(path)
+    global show_path
+    show_path = path
+    print(show_path)
+    print(type(path))
 
     global s
     s = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -139,8 +145,9 @@ def draw():
         if en.life:
             s.blit(en.animation[en.direction][en.frame],
                    (en.posX * (TILE_WIDTH / 4), en.posY * (TILE_HEIGHT / 4), TILE_WIDTH, TILE_HEIGHT))
-            for sek in en.path:
-                pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
+            if show_path:
+                for sek in en.path:
+                    pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
 
     pygame.display.update()
 

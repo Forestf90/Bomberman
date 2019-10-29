@@ -98,7 +98,7 @@ class Enemy:
     def dfs_rec(self, grid, end, path, depth):
 
         last = path[-1]
-        if depth > 100:
+        if depth > 200:
             return
         if grid[last[0]][last[1]] == 0 and end == 0:
             return
