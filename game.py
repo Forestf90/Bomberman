@@ -70,23 +70,41 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
     global clock
     clock = pygame.time.Clock()
 
-    en1 = Enemy(11, 11)
-    en1.load_animations('1')
-    en2 = Enemy(1, 11)
-    en2.load_animations('2')
-    en3 = Enemy(11, 1)
-    en3.load_animations('3')
+    # en1 = Enemy(11, 11)
+    # en1.load_animations('1')
+    # en2 = Enemy(1, 11)
+    # en2.load_animations('2')
+    # en3 = Enemy(11, 1)
+    # en3.load_animations('3')
     global enemy_list
-    enemy_list = [en1, en2, en3]
+    #enemy_list = [en1, en2, en3]
     global ene_blocks
-    ene_blocks = [en1, en2, en3]
+    #ene_blocks = [en1, en2, en3]
+
+    if en1_alg is not Algorithm.NONE:
+        en1 = Enemy(11, 11)
+        en1.load_animations('1')
+        enemy_list.append(en1)
+        ene_blocks.append(en1)
+
+    if en2_alg is not Algorithm.NONE:
+        en2 = Enemy(1, 11)
+        en2.load_animations('2')
+        enemy_list.append(en2)
+        ene_blocks.append(en2)
+
+    if en3_alg is not Algorithm.NONE:
+        en3 = Enemy(11, 1)
+        en3.load_animations('3')
+        enemy_list.append(en3)
+        ene_blocks.append(en3)
 
     if player_alg is Algorithm.PLAYER:
         global player
         player = Player()
         player.load_animations()
         ene_blocks.append(player)
-    else:
+    elif player_alg is not Algorithm.NONE:
         en0 = Enemy(1, 1)
         en0.load_animations('')
         enemy_list.append(en0)
@@ -250,7 +268,6 @@ def update_bombs(dt):
         e.update(dt)
         if e.time < 1:
             explosions.remove(e)
-
 
 
 def game_over():

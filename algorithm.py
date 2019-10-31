@@ -6,3 +6,4 @@ class Algorithm(Enum):
     DFS = 0
     BFS = 1
     PLAYER = 2
+    NONE = 3
