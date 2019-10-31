@@ -2,6 +2,7 @@ import pygame, sys, random
 from player import Player
 from explosion import Explosion
 from enemy import Enemy
+from algorithm import Algorithm
 
 TILE_WIDTH = 40
 TILE_HEIGHT = 40
@@ -58,12 +59,9 @@ TEXT_LOSE = font.render('GAME OVER', False, (0, 0, 0))
 TEXT_WIN = font.render('WIN', False, (0, 0, 0))
 
 
-def game_init(path):
-    print(path)
+def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
     global show_path
     show_path = path
-    print(show_path)
-    print(type(path))
 
     global s
     s = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -72,9 +70,6 @@ def game_init(path):
     global clock
     clock = pygame.time.Clock()
 
-    global player
-    player = Player()
-    player.load_animations()
     en1 = Enemy(11, 11)
     en1.load_animations('1')
     en2 = Enemy(1, 11)
@@ -84,7 +79,20 @@ def game_init(path):
     global enemy_list
     enemy_list = [en1, en2, en3]
     global ene_blocks
-    ene_blocks = [en1, en2, en3, player]
+    ene_blocks = [en1, en2, en3]
+
+    if player_alg is Algorithm.PLAYER:
+        global player
+        player = Player()
+        player.load_animations()
+        ene_blocks.append(player)
+    else:
+        en0 = Enemy(1, 1)
+        en0.load_animations('1')
+        enemy_list.append(en0)
+        ene_blocks.append(en0)
+        player = Player()
+        player.life = False
 
     global grass_img
     grass_img = pygame.image.load('images/terrain/grass.png')

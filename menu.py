@@ -2,6 +2,7 @@ import pygame
 import pygameMenu
 
 import game
+from algorithm import Algorithm
 
 COLOR_BACKGROUND = (153, 153, 255)
 COLOR_BLACK = (0, 0, 0)
@@ -12,16 +13,43 @@ MENU_TITLE_COLOR = (51, 51, 255)
 WINDOW_SIZE = (13 * 40, 13 * 40)
 
 clock = None
-main_menu = None
+# main_menu = None
 algo = ["DFS", "BFS"]
-en1_alg = 0
-show_path = None
+player_alg = Algorithm.PLAYER
+en1_alg = Algorithm.BFS
+en2_alg = Algorithm.BFS
+en3_alg = Algorithm.BFS
+show_path = True
 surface = pygame.display.set_mode(WINDOW_SIZE)
 
 
 def change_path(value, c):
     global show_path
     show_path = c
+
+
+def change_player(value, c):
+    global player_alg
+    player_alg = c
+
+
+def change_enemy1(value, c):
+    global en1_alg
+    en1_alg = c
+
+
+def change_enemy2(value, c):
+    global en2_alg
+    en2_alg = c
+
+
+def change_enemy3(value, c):
+    global en3_alg
+    en3_alg = c
+
+
+def run_game():
+    game.game_init(show_path, player_alg, en1_alg, en2_alg, en3_alg)
 
 
 def main_background():
@@ -70,19 +98,16 @@ def menu_loop():
                                    window_height=WINDOW_SIZE[1],
                                    window_width=WINDOW_SIZE[0]
                                    )
-    play_options.add_selector("Character 1", [("Player", 2), ("DFS", 0), ("BFS", 1)])
-    play_options.add_selector("Character 2", [("DFS", 0), ("BFS", 1)])
-    play_options.add_selector("Character 3", [("DFS", 0), ("BFS", 1)])
-    play_options.add_selector("Character 4", [("DFS", 0), ("BFS", 1)])
-    play_options.add_selector("Show path", [("Yes", True), ("No", False)], "", 0, "", change_path)
+    play_options.add_selector("Character 1", [("Player", Algorithm.PLAYER), ("DFS", Algorithm.DFS),
+                                              ("BFS", Algorithm.BFS)], onchange=change_player)
+    play_options.add_selector("Character 2", [("BFS", Algorithm.BFS), ("DFS", Algorithm.DFS)], onchange=change_enemy1)
+    play_options.add_selector("Character 3", [("BFS", Algorithm.BFS), ("DFS", Algorithm.DFS)], onchange=change_enemy2)
+    play_options.add_selector("Character 4", [("BFS", Algorithm.BFS), ("DFS", Algorithm.DFS)], onchange=change_enemy3)
+    play_options.add_selector("Show path", [("Yes", True), ("No", False)], onchange=change_path)
 
     play_options.add_option('Back', pygameMenu.events.BACK)
-    play_menu.add_option('Start',  # When pressing return -> play(DIFFICULTY[0], font)
-                         game.game_init,
-                         show_path
-                         # DIFFICULTY,
-                         # pygame.font.Font(pygameMenu.font.FONT_FRANCHISE, 30)
-                         )
+    play_menu.add_option('Start',
+                         run_game)
 
     play_menu.add_option('Options', play_options)
     play_menu.add_option('Return to main menu', pygameMenu.events.BACK)
