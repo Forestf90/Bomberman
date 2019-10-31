@@ -191,9 +191,13 @@ class Enemy:
         resize_width = 40
         resize_height = 40
 
-        f1 = pygame.image.load('images/enemy/e'+en+'f0.png')
-        f2 = pygame.image.load('images/enemy/e'+en+'f1.png')
-        f3 = pygame.image.load('images/enemy/e'+en+'f2.png')
+        image_path = 'images/enemy/e'
+        if en == '':
+            image_path = 'images/hero/p'
+
+        f1 = pygame.image.load(image_path+en+'f0.png')
+        f2 = pygame.image.load(image_path+en+'f1.png')
+        f3 = pygame.image.load(image_path+en+'f2.png')
 
         f1 = pygame.transform.scale(f1, (resize_width, resize_height))
         f2 = pygame.transform.scale(f2, (resize_width, resize_height))
@@ -203,9 +207,9 @@ class Enemy:
         front.append(f2)
         front.append(f3)
 
-        r1 = pygame.image.load('images/enemy/e'+en+'r0.png')
-        r2 = pygame.image.load('images/enemy/e'+en+'r1.png')
-        r3 = pygame.image.load('images/enemy/e'+en+'r2.png')
+        r1 = pygame.image.load(image_path+en+'r0.png')
+        r2 = pygame.image.load(image_path+en+'r1.png')
+        r3 = pygame.image.load(image_path+en+'r2.png')
 
         r1 = pygame.transform.scale(r1, (resize_width, resize_height))
         r2 = pygame.transform.scale(r2, (resize_width, resize_height))
@@ -215,9 +219,9 @@ class Enemy:
         right.append(r2)
         right.append(r3)
 
-        b1 = pygame.image.load('images/enemy/e'+en+'b0.png')
-        b2 = pygame.image.load('images/enemy/e'+en+'b1.png')
-        b3 = pygame.image.load('images/enemy/e'+en+'b2.png')
+        b1 = pygame.image.load(image_path+en+'b0.png')
+        b2 = pygame.image.load(image_path+en+'b1.png')
+        b3 = pygame.image.load(image_path+en+'b2.png')
 
         b1 = pygame.transform.scale(b1, (resize_width, resize_height))
         b2 = pygame.transform.scale(b2, (resize_width, resize_height))
@@ -227,9 +231,9 @@ class Enemy:
         back.append(b2)
         back.append(b3)
 
-        l1 = pygame.image.load('images/enemy/e'+en+'l0.png')
-        l2 = pygame.image.load('images/enemy/e'+en+'l1.png')
-        l3 = pygame.image.load('images/enemy/e'+en+'l2.png')
+        l1 = pygame.image.load(image_path+en+'l0.png')
+        l2 = pygame.image.load(image_path+en+'l1.png')
+        l3 = pygame.image.load(image_path+en+'l2.png')
 
         l1 = pygame.transform.scale(l1, (resize_width, resize_height))
         l2 = pygame.transform.scale(l2, (resize_width, resize_height))

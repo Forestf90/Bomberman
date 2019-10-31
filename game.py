@@ -88,7 +88,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
         ene_blocks.append(player)
     else:
         en0 = Enemy(1, 1)
-        en0.load_animations('1')
+        en0.load_animations('')
         enemy_list.append(en0)
         ene_blocks.append(en0)
         player = Player()
