@@ -10,11 +10,14 @@ COLOR_WHITE = (255, 255, 255)
 FPS = 60.0
 MENU_BACKGROUND_COLOR = (102, 102, 153)
 MENU_TITLE_COLOR = (51, 51, 255)
-WINDOW_SIZE = (13 * 40, 13 * 40)
+
+pygame.display.init()
+INFO = pygame.display.Info()
+TILE_SIZE = int(INFO.current_h * 0.045)
+WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
 
 clock = None
 # main_menu = None
-algo = ["DFS", "BFS"]
 player_alg = Algorithm.PLAYER
 en1_alg = Algorithm.BFS
 en2_alg = Algorithm.BFS
@@ -49,7 +52,7 @@ def change_enemy3(value, c):
 
 
 def run_game():
-    game.game_init(show_path, player_alg, en1_alg, en2_alg, en3_alg)
+    game.game_init(show_path, player_alg, en1_alg, en2_alg, en3_alg, TILE_SIZE)
 
 
 def main_background():
@@ -69,7 +72,7 @@ def menu_loop():
                                 color_selected=COLOR_WHITE,
                                 font=pygameMenu.font.FONT_BEBAS,
                                 font_color=COLOR_BLACK,
-                                font_size=30,
+                                font_size=TILE_SIZE,
                                 menu_alpha=100,
                                 menu_color=MENU_BACKGROUND_COLOR,
                                 menu_color_title=MENU_TITLE_COLOR,
@@ -87,7 +90,7 @@ def menu_loop():
                                    color_selected=COLOR_WHITE,
                                    font=pygameMenu.font.FONT_BEBAS,
                                    font_color=COLOR_BLACK,
-                                   font_size=30,
+                                   font_size=TILE_SIZE,
                                    menu_alpha=100,
                                    menu_color=MENU_BACKGROUND_COLOR,
                                    menu_color_title=MENU_TITLE_COLOR,
@@ -120,7 +123,7 @@ def menu_loop():
                                      color_selected=COLOR_WHITE,
                                      font=pygameMenu.font.FONT_BEBAS,
                                      font_color=COLOR_BLACK,
-                                     font_size_title=30,
+                                     font_size_title=TILE_SIZE,
                                      font_title=pygameMenu.font.FONT_BEBAS,
                                      menu_color=MENU_BACKGROUND_COLOR,
                                      menu_color_title=MENU_TITLE_COLOR,
@@ -129,7 +132,7 @@ def menu_loop():
                                      onclose=pygameMenu.events.DISABLE_CLOSE,
                                      option_shadow=False,
                                      text_color=COLOR_BLACK,
-                                     text_fontsize=17,
+                                     text_fontsize=int(TILE_SIZE*0.4),
                                      title='About',
                                      window_height=WINDOW_SIZE[1],
                                      window_width=WINDOW_SIZE[0]
@@ -148,7 +151,7 @@ def menu_loop():
                                 color_selected=COLOR_WHITE,
                                 font=pygameMenu.font.FONT_BEBAS,
                                 font_color=COLOR_BLACK,
-                                font_size=30,
+                                font_size=TILE_SIZE,
                                 menu_alpha=100,
                                 menu_color=MENU_BACKGROUND_COLOR,
                                 menu_color_title=MENU_TITLE_COLOR,

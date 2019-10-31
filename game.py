@@ -59,12 +59,22 @@ TEXT_LOSE = font.render('GAME OVER', False, (0, 0, 0))
 TEXT_WIN = font.render('WIN', False, (0, 0, 0))
 
 
-def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
+def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
+
+    global TILE_WIDTH
+    global TILE_HEIGHT
+    TILE_WIDTH = scale
+    TILE_HEIGHT = scale
+
+    # WINDOW_WIDTH = 13 * TILE_WIDTH
+    # WINDOW_HEIGHT = 13 * TILE_HEIGHT
+
+
     global show_path
     show_path = path
 
     global s
-    s = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    s = pygame.display.set_mode((13 * TILE_WIDTH, 13 * TILE_HEIGHT))
     pygame.display.set_caption('Bomberman')
 
     global clock
@@ -77,25 +87,25 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
 
     if en1_alg is not Algorithm.NONE:
         en1 = Enemy(11, 11)
-        en1.load_animations('1')
+        en1.load_animations('1', scale)
         enemy_list.append(en1)
         ene_blocks.append(en1)
 
     if en2_alg is not Algorithm.NONE:
         en2 = Enemy(1, 11)
-        en2.load_animations('2')
+        en2.load_animations('2', scale)
         enemy_list.append(en2)
         ene_blocks.append(en2)
 
     if en3_alg is not Algorithm.NONE:
         en3 = Enemy(11, 1)
-        en3.load_animations('3')
+        en3.load_animations('3',scale)
         enemy_list.append(en3)
         ene_blocks.append(en3)
 
     if player_alg is Algorithm.PLAYER:
         # player = Player()
-        player.load_animations()
+        player.load_animations(scale)
         ene_blocks.append(player)
     elif player_alg is not Algorithm.NONE:
         en0 = Enemy(1, 1)

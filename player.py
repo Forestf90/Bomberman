@@ -85,13 +85,13 @@ class Player:
                 if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
                     self.life = False
 
-    def load_animations(self):
+    def load_animations(self, scale):
         front = []
         back = []
         left = []
         right = []
-        resize_width = 40
-        resize_height = 40
+        resize_width = scale
+        resize_height = scale
 
         f1 = pygame.image.load('images/hero/pf0.png')
         f2 = pygame.image.load('images/hero/pf1.png')

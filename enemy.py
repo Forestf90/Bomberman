@@ -183,13 +183,13 @@ class Enemy:
 
         return grid
 
-    def load_animations(self, en):
+    def load_animations(self, en, scale):
         front = []
         back = []
         left = []
         right = []
-        resize_width = 40
-        resize_height = 40
+        resize_width = scale
+        resize_height = scale
 
         image_path = 'images/enemy/e'
         if en == '':
