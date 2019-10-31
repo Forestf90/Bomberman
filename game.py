@@ -70,16 +70,10 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
     global clock
     clock = pygame.time.Clock()
 
-    # en1 = Enemy(11, 11)
-    # en1.load_animations('1')
-    # en2 = Enemy(1, 11)
-    # en2.load_animations('2')
-    # en3 = Enemy(11, 1)
-    # en3.load_animations('3')
     global enemy_list
-    #enemy_list = [en1, en2, en3]
     global ene_blocks
-    #ene_blocks = [en1, en2, en3]
+    global player
+    player = Player()
 
     if en1_alg is not Algorithm.NONE:
         en1 = Enemy(11, 11)
@@ -100,8 +94,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
         ene_blocks.append(en3)
 
     if player_alg is Algorithm.PLAYER:
-        global player
-        player = Player()
+        # player = Player()
         player.load_animations()
         ene_blocks.append(player)
     elif player_alg is not Algorithm.NONE:
@@ -109,13 +102,15 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg):
         en0.load_animations('')
         enemy_list.append(en0)
         ene_blocks.append(en0)
-        player = Player()
+        # player = Player()
+        player.life = False
+    else:
         player.life = False
 
     global grass_img
     grass_img = pygame.image.load('images/terrain/grass.png')
     grass_img = pygame.transform.scale(grass_img, (TILE_WIDTH, TILE_HEIGHT))
-
+    print(player.life)
     global block_img
     block_img = pygame.image.load('images/terrain/block.png')
     block_img = pygame.transform.scale(block_img, (TILE_WIDTH, TILE_HEIGHT))

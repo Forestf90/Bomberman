@@ -180,7 +180,6 @@ def menu_loop():
 
         # Main menu
         main_menu.mainloop(events)
-        print(show_path)
         # Flip surface
         pygame.display.flip()
 
