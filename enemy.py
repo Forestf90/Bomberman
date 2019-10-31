@@ -43,7 +43,7 @@ class Enemy:
         if self.posX % 4 == 0 and self.posY % 4 == 0:
             self.movement_path.pop(0)
             self.path.pop(0)
-            if len(self.path) >1:
+            if len(self.path) > 1:
                 grid = self.create_grid(map, bombs, explosions, enemy)
                 next = self.path[1]
                 if grid[next[0]][next[1]] > 1:
@@ -72,7 +72,7 @@ class Enemy:
             self.move(map, bombs, explosions, enemy)
 
     def plant_bomb(self, map):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4),map, self)
+        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), map, self)
         self.bomb_limit -= 1
         return b
 

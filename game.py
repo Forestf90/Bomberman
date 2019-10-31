@@ -69,7 +69,6 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     # WINDOW_WIDTH = 13 * TILE_WIDTH
     # WINDOW_HEIGHT = 13 * TILE_HEIGHT
 
-
     global show_path
     show_path = path
 
@@ -109,7 +108,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
         ene_blocks.append(player)
     elif player_alg is not Algorithm.NONE:
         en0 = Enemy(1, 1)
-        en0.load_animations('')
+        en0.load_animations('', scale)
         enemy_list.append(en0)
         ene_blocks.append(en0)
         # player = Player()

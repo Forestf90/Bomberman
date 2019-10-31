@@ -13,7 +13,7 @@ MENU_TITLE_COLOR = (51, 51, 255)
 
 pygame.display.init()
 INFO = pygame.display.Info()
-TILE_SIZE = int(INFO.current_h * 0.045)
+TILE_SIZE = int(INFO.current_h * 0.035)
 WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
 
 clock = None
@@ -71,8 +71,9 @@ def menu_loop():
                                 bgfun=main_background,
                                 color_selected=COLOR_WHITE,
                                 font=pygameMenu.font.FONT_BEBAS,
+                                font_size_title=TILE_SIZE,
                                 font_color=COLOR_BLACK,
-                                font_size=TILE_SIZE,
+                                font_size=int(TILE_SIZE*0.8),
                                 menu_alpha=100,
                                 menu_color=MENU_BACKGROUND_COLOR,
                                 menu_color_title=MENU_TITLE_COLOR,
@@ -89,8 +90,9 @@ def menu_loop():
                                    bgfun=main_background,
                                    color_selected=COLOR_WHITE,
                                    font=pygameMenu.font.FONT_BEBAS,
+                                   font_size_title=TILE_SIZE,
                                    font_color=COLOR_BLACK,
-                                   font_size=TILE_SIZE,
+                                   font_size=int(TILE_SIZE*0.8),
                                    menu_alpha=100,
                                    menu_color=MENU_BACKGROUND_COLOR,
                                    menu_color_title=MENU_TITLE_COLOR,
@@ -150,6 +152,7 @@ def menu_loop():
                                 bgfun=main_background,
                                 color_selected=COLOR_WHITE,
                                 font=pygameMenu.font.FONT_BEBAS,
+                                font_size_title=TILE_SIZE,
                                 font_color=COLOR_BLACK,
                                 font_size=TILE_SIZE,
                                 menu_alpha=100,
