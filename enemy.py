@@ -2,6 +2,7 @@ import pygame, random
 from bomb import Bomb
 from node import Node
 from explosion import Explosion
+from algorithm import Algorithm
 
 
 class Enemy:
@@ -15,7 +16,7 @@ class Enemy:
     # plant = False
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, alg):
         self.life = True
         self.path = []
         self.movement_path = []
@@ -27,6 +28,7 @@ class Enemy:
         self.range = 3
         self.bomb_limit = 1
         self.plant = False
+        self.algorithm =alg
         #self.load_animations(n)
 
     def move(self, map, bombs, explosions, enemy):
@@ -66,7 +68,11 @@ class Enemy:
                 bombs.append(self.plant_bomb(map))
                 self.plant = False
                 map[int(self.posX/4)][int(self.posY/4)] = 3
-            self.dfs(self.create_grid(map, bombs, explosions, enemy))
+            if self.algorithm is Algorithm.DFS:
+                self.dfs(self.create_grid(map, bombs, explosions, enemy))
+            else:
+                self.bfs(self.create_grid(map, bombs, explosions, enemy))
+
         else:
             self.direction = self.movement_path[0]
             self.move(map, bombs, explosions, enemy)
@@ -147,6 +153,17 @@ class Enemy:
                 self.movement_path.pop(0)
         depth += 1
         self.dfs_rec(grid, end, path, depth)
+
+    def bfs(self, grid):
+        print('bfs')
+
+        new_path = []
+        new_path.append([int(self.posX/4), int(self.posY/4)])
+        end = 2
+        if self.bomb_limit == 0:
+            end = 0
+
+        self.path = new_path
 
     def create_grid(self, map, bombs, explosions, enemys):
         grid = [[0] * len(map) for r in range(len(map))]

@@ -85,20 +85,20 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     player = Player()
 
     if en1_alg is not Algorithm.NONE:
-        en1 = Enemy(11, 11)
+        en1 = Enemy(11, 11, en1_alg)
         en1.load_animations('1', scale)
         enemy_list.append(en1)
         ene_blocks.append(en1)
 
     if en2_alg is not Algorithm.NONE:
-        en2 = Enemy(1, 11)
+        en2 = Enemy(1, 11, en2_alg)
         en2.load_animations('2', scale)
         enemy_list.append(en2)
         ene_blocks.append(en2)
 
     if en3_alg is not Algorithm.NONE:
-        en3 = Enemy(11, 1)
-        en3.load_animations('3',scale)
+        en3 = Enemy(11, 1, en3_alg)
+        en3.load_animations('3', scale)
         enemy_list.append(en3)
         ene_blocks.append(en3)
 
@@ -107,7 +107,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
         player.load_animations(scale)
         ene_blocks.append(player)
     elif player_alg is not Algorithm.NONE:
-        en0 = Enemy(1, 1)
+        en0 = Enemy(1, 1, player_alg)
         en0.load_animations('', scale)
         enemy_list.append(en0)
         ene_blocks.append(en0)
@@ -119,7 +119,6 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     global grass_img
     grass_img = pygame.image.load('images/terrain/grass.png')
     grass_img = pygame.transform.scale(grass_img, (TILE_WIDTH, TILE_HEIGHT))
-    print(player.life)
     global block_img
     block_img = pygame.image.load('images/terrain/block.png')
     block_img = pygame.transform.scale(block_img, (TILE_WIDTH, TILE_HEIGHT))

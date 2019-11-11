@@ -1,16 +1,16 @@
 import unittest
 import game
 
-from bomb import Bomb
 from enemy import Enemy
 from player import Player
+from algorithm import Algorithm
 
 
 class MyTestCase(unittest.TestCase):
 
     def setUp(self):
-        game.enemy_list.append(Enemy(11, 11))
-        game.enemy_list.append(Enemy(1, 11))
+        game.enemy_list.append(Enemy(11, 11, Algorithm.BFS))
+        game.enemy_list.append(Enemy(1, 11, Algorithm.BFS))
         game.player = Player()
 
     def test_explosion_sectors(self):
