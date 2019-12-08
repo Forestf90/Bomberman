@@ -8,6 +8,7 @@ Game allow to play against two types of AI (Dijkstra Algorithm and Depth-first s
  
 ## Controls 
 WSDA - move 
+
 Space - plant bomb 
  
 ## Run 
