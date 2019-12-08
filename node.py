@@ -1,7 +1,11 @@
 class Node:
 
-    def __init__(self, px1, py1, px2, py2):
-        self.startX = px1
-        self.startY = py1
-        self.endX = px2
-        self.endY = py2
+    parent = None
+
+    def __init__(self, px, py, reach, weight, value):
+        self.x = px
+        self.y = py
+        self.reach = reach
+        self.weight = weight
+        self.value = value
+

@@ -71,7 +71,7 @@ class Enemy:
             if self.algorithm is Algorithm.DFS:
                 self.dfs(self.create_grid(map, bombs, explosions, enemy))
             else:
-                self.bfs(self.create_grid(map, bombs, explosions, enemy))
+                self.dijkstra(self.create_grid_dijkstra(map, bombs, explosions, enemy))
 
         else:
             self.direction = self.movement_path[0]
@@ -154,14 +154,45 @@ class Enemy:
         depth += 1
         self.dfs_rec(grid, end, path, depth)
 
-    def bfs(self, grid):
-        print('bfs')
+    def dijkstra(self, grid):
+        print('dijkstra')
 
-        new_path = []
-        new_path.append([int(self.posX/4), int(self.posY/4)])
+        # new_path = []
+        # new_path.append([int(self.posX/4), int(self.posY/4)])
         end = 2
         if self.bomb_limit == 0:
             end = 0
+
+        visited = []
+        open_list = []
+        current = grid[int(self.posX/4)][int(self.posY/4)]
+        new_path = [current]
+        while True:
+            visited.append(current)
+            random.shuffle(self.dire)
+            if current.value == end:
+                pass
+
+            for i in range(len(self.dire)):
+                if current.x + self.dire[i][0] < len(grid) and current.y + self.dire[i][1] < len(grid):
+                    if grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].reach \
+                            and [[current.x + self.dire[i][0]], [current.y + self.dire[i][1]]] not in visited\
+                            and [[current.x + self.dire[i][0]], [current.y + self.dire[i][1]]] not in open_list:
+                        open_list.append(grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]])
+
+            if len(open_list) == 0:
+                self.path = [[int(self.posX/4), int(self.posY/4)]]
+                return
+
+            next_node = open_list[0]
+            for n in open_list:
+                if n.weight < next_node.weight:
+                    next_node = n
+
+            open_list.remove(next_node)
+            current = next_node
+
+
 
         self.path = new_path
 
@@ -197,6 +228,42 @@ class Enemy:
                 continue
             else:
                 grid[int(x.posX / 4)][int(x.posY / 4)] = 2
+
+        return grid
+
+    def create_grid_dijkstra(self, map, bombs, explosions, enemys):
+        grid = [[None] * len(map) for r in range(len(map))]
+
+        # 0 - safe
+        # 1 - destroyable
+        # 2 - unreachable
+        for i in range(len(map)):
+            for j in range(len(map)):
+                if map[i][j] == 0:
+                    grid[i][j] = Node(i, j, True, 1, 0)
+                elif map[i][j] == 2:
+                    grid[i][j] = Node(i, j, False, 999, 1)
+                elif map[i][j] == 1:
+                    grid[i][j] = Node(i, j, False, 999, 2)
+
+        for b in bombs:
+            b.get_range(map)
+            for x in b.sectors:
+                grid[x[0]][x[1]].reach = True
+                grid[x[0]][x[1]].weight = 5
+            grid[b.posX][b.posY].reach = False
+
+        for e in explosions:
+            for s in e.sectors:
+                grid[s[0]][s[1]].reach = False
+
+        for x in enemys:
+            if x == self:
+                continue
+            elif not x.life:
+                continue
+            else:
+                grid[int(x.posX / 4)][int(x.posY / 4)].reach = False
 
         return grid
 
