@@ -274,6 +274,7 @@ class Enemy:
         # 0 - safe
         # 1 - destroyable
         # 2 - unreachable
+        # 3 - unsafe
         for i in range(len(map)):
             for j in range(len(map)):
                 if map[i][j] == 0:
@@ -288,8 +289,9 @@ class Enemy:
         for b in bombs:
             b.get_range(map)
             for x in b.sectors:
-                grid[x[0]][x[1]].reach = True
+               # grid[x[0]][x[1]].reach = True
                 grid[x[0]][x[1]].weight = 5
+                grid[x[0]][x[1]].value = 3
             grid[b.posX][b.posY].reach = False
 
         for e in explosions:
@@ -303,7 +305,7 @@ class Enemy:
                 continue
             else:
                 grid[int(x.posX / 4)][int(x.posY / 4)].reach = False
-
+                grid[int(x.posX / 4)][int(x.posY / 4)].value = 1
         return grid
 
     def load_animations(self, en, scale):
