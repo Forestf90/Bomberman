@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random, time
 from player import Player
 from explosion import Explosion
 from enemy import Enemy
@@ -168,8 +168,8 @@ def draw():
     if player.life:
         s.blit(player.animation[player.direction][player.frame],
                (player.posX * (TILE_WIDTH / 4), player.posY * (TILE_HEIGHT / 4), TILE_WIDTH, TILE_HEIGHT))
-    else:
-        s.blit(TEXT_LOSE, ((WINDOW_WIDTH / 2) - 30, (WINDOW_HEIGHT / 2) - 30))
+    # else:
+    #     s.blit(TEXT_LOSE, ((WINDOW_WIDTH / 2) - 30, (WINDOW_HEIGHT / 2) - 30))
     for en in enemy_list:
         if en.life:
             s.blit(en.animation[en.direction][en.frame],
@@ -203,6 +203,7 @@ def main():
     generate_map()
     while player.life:
         dt = clock.tick(15)
+        print("fdsfasdgasdgsadg")
         for en in enemy_list:
             en.make_move(grid, bombs, explosions, ene_blocks)
         keys = pygame.key.get_pressed()
@@ -268,7 +269,8 @@ def update_bombs(dt):
             exp_temp.explode(grid, bombs, b)
             exp_temp.clear_sectors(grid)
             explosions.append(exp_temp)
-    player.check_death(explosions)
+    if player not in enemy_list:
+        player.check_death(explosions)
     for en in enemy_list:
         en.check_death(explosions)
     for e in explosions:
@@ -279,13 +281,32 @@ def update_bombs(dt):
 
 def game_over():
 
-    textsurface = font.render('GAME OVER', False, (0, 0, 0))
+    # textsurface = font.render('GAME OVER', False, (0, 0, 0))
     while True:
-        dt = clock.tick(15)
+        dt = clock.tick(50)
         update_bombs(dt)
+        count = 0
+        winner = ""
         for en in enemy_list:
             en.make_move(grid, bombs, explosions, ene_blocks)
+            if en.life:
+                count += 1
+                winner = en.algorithm.name
+        print(enemy_list)
+        if count == 1:
+            print(winner)
+            draw()
+            time.sleep(5)
+            menu.menu_loop()
+            #sys.exit(0)
+        if count == 0:
+            print("draw")
+            draw()
+            time.sleep(5)
+            menu.menu_loop()
+            #sys.exit(0)
         draw()
+
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)

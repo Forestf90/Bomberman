@@ -89,6 +89,7 @@ class Enemy:
                 if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
                     self.life = False
 
+
     def dfs(self, grid):
 
         new_path = []
@@ -173,7 +174,6 @@ class Enemy:
             if (current.value == end and end == 0) or\
                     (end == 1 and (grid[current.x+1][current.y].value == 1 or grid[current.x-1][current.y].value == 1 or
                 grid[current.x][current.y+1].value == 1 or grid[current.x][current.y-1].value == 1)):
-                print(end, current.value)
                 # if end == 1:
                 new_path.append([current.x, current.y])
                 while True:
@@ -181,9 +181,6 @@ class Enemy:
                         break
                     current = current.parent
                     new_path.append([current.x, current.y])
-                    # self.movement_path.append(current.direction)
-                print(len(new_path))
-                print(end, current.value)
                 new_path.reverse()
                 for xd in range(len(new_path)):
                     # print(xd.x, xd.y)
@@ -372,3 +369,20 @@ class Enemy:
         self.animation.append(right)
         self.animation.append(back)
         self.animation.append(left)
+
+    def __repr__(self):
+        return "life : "+str(self.life) + "\n path: " + str(self.path) + "\n x " + str(self.posX) + "\n y " + str(self.posY)
+        + "direction " + str(self.direction) + "plant " + str(self.plant)
+
+    # self.life
+    # self.path = []
+    # self.movement_path = []
+    # self.posX = x * 4
+    # self.posY = y * 4
+    # self.direction = 0
+    # self.frame = 0
+    # self.animation = []
+    # self.range = 3
+    # self.bomb_limit = 1
+    # self.plant = False
+    # self.algorithm = alg
