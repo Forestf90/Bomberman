@@ -175,8 +175,12 @@ def draw():
             s.blit(en.animation[en.direction][en.frame],
                    (en.posX * (TILE_WIDTH / 4), en.posY * (TILE_HEIGHT / 4), TILE_WIDTH, TILE_HEIGHT))
             if show_path:
-                for sek in en.path:
-                    pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
+                if en.algorithm == Algorithm.DFS:
+                    for sek in en.path:
+                        pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
+                else:
+                    for sek in en.path:
+                        pygame.draw.rect(s, (255, 0, 255, 240), [sek.x * TILE_WIDTH, sek.y * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
 
     pygame.display.update()
 

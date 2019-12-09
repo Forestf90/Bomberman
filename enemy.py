@@ -20,16 +20,16 @@ class Enemy:
         self.life = True
         self.path = []
         self.movement_path = []
-        self.posX = x*4
-        self.posY = y*4
+        self.posX = x * 4
+        self.posY = y * 4
         self.direction = 0
         self.frame = 0
         self.animation = []
         self.range = 3
         self.bomb_limit = 1
         self.plant = False
-        self.algorithm =alg
-        #self.load_animations(n)
+        self.algorithm = alg
+        # self.load_animations(n)
 
     def move(self, map, bombs, explosions, enemy):
 
@@ -67,7 +67,7 @@ class Enemy:
             if self.plant:
                 bombs.append(self.plant_bomb(map))
                 self.plant = False
-                map[int(self.posX/4)][int(self.posY/4)] = 3
+                map[int(self.posX / 4)][int(self.posY / 4)] = 3
             if self.algorithm is Algorithm.DFS:
                 self.dfs(self.create_grid(map, bombs, explosions, enemy))
             else:
@@ -78,7 +78,7 @@ class Enemy:
             self.move(map, bombs, explosions, enemy)
 
     def plant_bomb(self, map):
-        b = Bomb(self.range, round(self.posX/4), round(self.posY/4), map, self)
+        b = Bomb(self.range, round(self.posX / 4), round(self.posY / 4), map, self)
         self.bomb_limit -= 1
         return b
 
@@ -86,13 +86,13 @@ class Enemy:
 
         for e in exp:
             for s in e.sectors:
-                if int(self.posX/4) == s[0] and int(self.posY/4) == s[1]:
+                if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
                     self.life = False
 
     def dfs(self, grid):
 
         new_path = []
-        new_path.append([int(self.posX/4), int(self.posY/4)])
+        new_path.append([int(self.posX / 4), int(self.posY / 4)])
         depth = 0
         if self.bomb_limit == 0:
             self.dfs_rec(grid, 0, new_path, depth)
@@ -134,7 +134,7 @@ class Enemy:
             path.append([last[0] + self.dire[3][0], last[1] + self.dire[3][1]])
             self.movement_path.append(self.dire[3][2])
 
-          #unsafe
+        # unsafe
         elif grid[last[0] + self.dire[0][0]][last[1] + self.dire[0][1]] == 1:
             path.append([last[0] + self.dire[0][0], last[1] + self.dire[0][1]])
             self.movement_path.append(self.dire[0][2])
@@ -155,46 +155,65 @@ class Enemy:
         self.dfs_rec(grid, end, path, depth)
 
     def dijkstra(self, grid):
-        print('dijkstra')
 
         # new_path = []
         # new_path.append([int(self.posX/4), int(self.posY/4)])
-        end = 2
+        end = 1
         if self.bomb_limit == 0:
             end = 0
 
         visited = []
         open_list = []
-        current = grid[int(self.posX/4)][int(self.posY/4)]
-        new_path = [current]
+        current = grid[int(self.posX / 4)][int(self.posY / 4)]
+        current.weight = current.base_weight
+        new_path = []
         while True:
             visited.append(current)
             random.shuffle(self.dire)
-            if current.value == end:
-                pass
+            if current.value == end and end == 0 or\
+                end == 1 and grid[current.x+1][current.y].value == 1 or grid[current.x-1][current.y].value == 1 or\
+                grid[current.x][current.y+1].value == 1 or grid[current.x][current.y-1].value == 1:
+                new_path.append(current)
+                while True:
+                    if current.parent is None:
+                        break
+                    current = current.parent
+                    new_path.append(current)
+                   # self.movement_path.append()
+                print(len(new_path))
+                for xd in new_path:
+                    print(xd.x, xd.y)
+                self.path = new_path
+                return
 
             for i in range(len(self.dire)):
                 if current.x + self.dire[i][0] < len(grid) and current.y + self.dire[i][1] < len(grid):
                     if grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].reach \
-                            and [[current.x + self.dire[i][0]], [current.y + self.dire[i][1]]] not in visited\
-                            and [[current.x + self.dire[i][0]], [current.y + self.dire[i][1]]] not in open_list:
-                        open_list.append(grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]])
+                            and grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]] not in visited:
+                        if grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]] in open_list:
+                            if grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].weight >\
+                                    grid[current.x][current.y].weight \
+                                    + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight:
+                                grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].parent = current
+                                grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].weight = current.weight + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight
+                        else:
+                            grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].parent = current
+                            grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].weight =\
+                                current.weight + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight
+                            open_list.append(grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]])
 
             if len(open_list) == 0:
-                self.path = [[int(self.posX/4), int(self.posY/4)]]
+                self.path = [[int(self.posX / 4), int(self.posY / 4)]]
                 return
 
             next_node = open_list[0]
             for n in open_list:
                 if n.weight < next_node.weight:
                     next_node = n
-
             open_list.remove(next_node)
             current = next_node
 
-
-
-        self.path = new_path
+        # self.path = new_path
 
     def create_grid(self, map, bombs, explosions, enemys):
         grid = [[0] * len(map) for r in range(len(map))]
@@ -279,9 +298,9 @@ class Enemy:
         if en == '':
             image_path = 'images/hero/p'
 
-        f1 = pygame.image.load(image_path+en+'f0.png')
-        f2 = pygame.image.load(image_path+en+'f1.png')
-        f3 = pygame.image.load(image_path+en+'f2.png')
+        f1 = pygame.image.load(image_path + en + 'f0.png')
+        f2 = pygame.image.load(image_path + en + 'f1.png')
+        f3 = pygame.image.load(image_path + en + 'f2.png')
 
         f1 = pygame.transform.scale(f1, (resize_width, resize_height))
         f2 = pygame.transform.scale(f2, (resize_width, resize_height))
@@ -291,9 +310,9 @@ class Enemy:
         front.append(f2)
         front.append(f3)
 
-        r1 = pygame.image.load(image_path+en+'r0.png')
-        r2 = pygame.image.load(image_path+en+'r1.png')
-        r3 = pygame.image.load(image_path+en+'r2.png')
+        r1 = pygame.image.load(image_path + en + 'r0.png')
+        r2 = pygame.image.load(image_path + en + 'r1.png')
+        r3 = pygame.image.load(image_path + en + 'r2.png')
 
         r1 = pygame.transform.scale(r1, (resize_width, resize_height))
         r2 = pygame.transform.scale(r2, (resize_width, resize_height))
@@ -303,9 +322,9 @@ class Enemy:
         right.append(r2)
         right.append(r3)
 
-        b1 = pygame.image.load(image_path+en+'b0.png')
-        b2 = pygame.image.load(image_path+en+'b1.png')
-        b3 = pygame.image.load(image_path+en+'b2.png')
+        b1 = pygame.image.load(image_path + en + 'b0.png')
+        b2 = pygame.image.load(image_path + en + 'b1.png')
+        b3 = pygame.image.load(image_path + en + 'b2.png')
 
         b1 = pygame.transform.scale(b1, (resize_width, resize_height))
         b2 = pygame.transform.scale(b2, (resize_width, resize_height))
@@ -315,9 +334,9 @@ class Enemy:
         back.append(b2)
         back.append(b3)
 
-        l1 = pygame.image.load(image_path+en+'l0.png')
-        l2 = pygame.image.load(image_path+en+'l1.png')
-        l3 = pygame.image.load(image_path+en+'l2.png')
+        l1 = pygame.image.load(image_path + en + 'l0.png')
+        l2 = pygame.image.load(image_path + en + 'l1.png')
+        l3 = pygame.image.load(image_path + en + 'l2.png')
 
         l1 = pygame.transform.scale(l1, (resize_width, resize_height))
         l2 = pygame.transform.scale(l2, (resize_width, resize_height))

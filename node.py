@@ -1,11 +1,13 @@
 class Node:
 
     parent = None
+    weight = None
+    direction = None
 
-    def __init__(self, px, py, reach, weight, value):
+    def __init__(self, px, py, reach, base_weight, value):
         self.x = px
         self.y = py
         self.reach = reach
-        self.weight = weight
+        self.base_weight = base_weight
         self.value = value
 

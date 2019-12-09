@@ -51,6 +51,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(1, len(game.explosions))
 
 
-
 if __name__ == '__main__':
     unittest.main()
