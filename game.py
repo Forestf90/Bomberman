@@ -180,7 +180,7 @@ def draw():
                         pygame.draw.rect(s, (255, 0, 0, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
                 else:
                     for sek in en.path:
-                        pygame.draw.rect(s, (255, 0, 255, 240), [sek.x * TILE_WIDTH, sek.y * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
+                        pygame.draw.rect(s, (255, 0, 255, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
 
     pygame.display.update()
 

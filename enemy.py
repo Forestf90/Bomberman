@@ -170,19 +170,34 @@ class Enemy:
         while True:
             visited.append(current)
             random.shuffle(self.dire)
-            if current.value == end and end == 0 or\
-                end == 1 and grid[current.x+1][current.y].value == 1 or grid[current.x-1][current.y].value == 1 or\
-                grid[current.x][current.y+1].value == 1 or grid[current.x][current.y-1].value == 1:
-                new_path.append(current)
+            if (current.value == end and end == 0) or\
+                    (end == 1 and (grid[current.x+1][current.y].value == 1 or grid[current.x-1][current.y].value == 1 or
+                grid[current.x][current.y+1].value == 1 or grid[current.x][current.y-1].value == 1)):
+                print(end, current.value)
+                # if end == 1:
+                new_path.append([current.x, current.y])
                 while True:
                     if current.parent is None:
                         break
                     current = current.parent
-                    new_path.append(current)
-                   # self.movement_path.append()
+                    new_path.append([current.x, current.y])
+                    # self.movement_path.append(current.direction)
                 print(len(new_path))
-                for xd in new_path:
-                    print(xd.x, xd.y)
+                print(end, current.value)
+                new_path.reverse()
+                for xd in range(len(new_path)):
+                    # print(xd.x, xd.y)
+                    if new_path[xd] is not new_path[-1]:
+                        if new_path[xd][0] - new_path[xd+1][0] == -1:
+                            self.movement_path.append(1)
+                        elif new_path[xd][0] - new_path[xd + 1][0] == 1:
+                            self.movement_path.append(3)
+                        elif new_path[xd][1] - new_path[xd + 1][1] == -1:
+                            self.movement_path.append(0)
+                        elif new_path[xd][1] - new_path[xd + 1][1] == 1:
+                            self.movement_path.append(2)
+                if len(new_path) == 1 and end == 1:
+                    self.plant = True
                 self.path = new_path
                 return
 
@@ -196,10 +211,13 @@ class Enemy:
                                     + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight:
                                 grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].parent = current
                                 grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].weight = current.weight + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight
+                                grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].direction = self.dire[i][2]
+
                         else:
                             grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].parent = current
                             grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].weight =\
                                 current.weight + grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].base_weight
+                            grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]].direction = self.dire[i][2]
                             open_list.append(grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]])
 
             if len(open_list) == 0:
@@ -263,6 +281,8 @@ class Enemy:
                 elif map[i][j] == 2:
                     grid[i][j] = Node(i, j, False, 999, 1)
                 elif map[i][j] == 1:
+                    grid[i][j] = Node(i, j, False, 999, 2)
+                elif map[i][j] == 3:
                     grid[i][j] = Node(i, j, False, 999, 2)
 
         for b in bombs:
