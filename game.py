@@ -292,19 +292,17 @@ def game_over():
             if en.life:
                 count += 1
                 winner = en.algorithm.name
-        print(enemy_list)
+        #print(enemy_list)
         if count == 1:
             print(winner)
             draw()
             time.sleep(5)
-            menu.menu_loop()
-            #sys.exit(0)
+            sys.exit(0)
         if count == 0:
             print("draw")
             draw()
             time.sleep(5)
-            menu.menu_loop()
-            #sys.exit(0)
+            sys.exit(0)
         draw()
 
         for e in pygame.event.get():

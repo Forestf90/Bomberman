@@ -89,7 +89,6 @@ class Enemy:
                 if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
                     self.life = False
 
-
     def dfs(self, grid):
 
         new_path = []

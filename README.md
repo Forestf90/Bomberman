@@ -7,7 +7,7 @@ Game allow to play against two types of AI (Dijkstra Algorithm and Depth-first s
 ![](images/git1.png)
  
 ## Controls 
-WSDA - move 
+Arrows - move 
 
 Space - plant bomb 
  
