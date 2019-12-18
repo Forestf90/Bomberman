@@ -139,12 +139,15 @@ def menu_loop():
                                      window_height=WINDOW_SIZE[1],
                                      window_width=WINDOW_SIZE[0]
                                      )
-    about_menu.add_line("Author:  Michal Sliwa")
-    about_menu.add_line("Sprite : ")
-    about_menu.add_line("Original Bomb Party sprite sheet by")
-    about_menu.add_line("Matt Hackett of Lost Decade Games,")
-    about_menu.add_line("expanded by Cem Kalyoncu and /usr/share.")
-    about_menu.add_line("Link :")
+    about_menu.add_line("Player_controls: ")
+    about_menu.add_line("Movement:_Arrows")
+    about_menu.add_line("Plant bomb:_Space")
+    about_menu.add_line("Author:_Michal_Sliwa")
+    about_menu.add_line("Sprite: ")
+    # about_menu.add_line("Original Bomb Party sprite sheet by")
+    # about_menu.add_line("Matt Hackett of Lost Decade Games,")
+    # about_menu.add_line("expanded by Cem Kalyoncu and /usr/share.")
+    # about_menu.add_line("Link :")
     about_menu.add_line("https://opengameart.org/content")
     about_menu.add_line("/bomb-party-the-complete-set")
     # Main menu

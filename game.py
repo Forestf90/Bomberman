@@ -54,7 +54,7 @@ bomb_images = []
 explosion_images = []
 
 pygame.font.init()
-font = pygame.font.SysFont('Comic Sans MS', 30)
+font = pygame.font.SysFont('Bebas', 30)
 TEXT_LOSE = font.render('GAME OVER', False, (0, 0, 0))
 TEXT_WIN = font.render('WIN', False, (0, 0, 0))
 
@@ -66,6 +66,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     TILE_WIDTH = scale
     TILE_HEIGHT = scale
 
+    font = pygame.font.SysFont('Bebas', scale)
     # WINDOW_WIDTH = 13 * TILE_WIDTH
     # WINDOW_HEIGHT = 13 * TILE_HEIGHT
 
@@ -281,7 +282,7 @@ def update_bombs(dt):
 
 def game_over():
 
-    # textsurface = font.render('GAME OVER', False, (0, 0, 0))
+
     while True:
         dt = clock.tick(50)
         update_bombs(dt)
@@ -296,13 +297,25 @@ def game_over():
         if count == 1:
             print(winner)
             draw()
+            textsurface = font.render(winner + " wins", False, (0, 0, 0))
+            font_w = textsurface.get_width()
+            font_h = textsurface.get_height()
+            s.blit(textsurface, (s.get_width() // 2 - font_w//2,  s.get_height() // 2 - font_h//2))
+            pygame.display.update()
             time.sleep(5)
-            sys.exit(0)
+            # pygame.quit()
+            # sys.exit(0)
+            break
         if count == 0:
             print("draw")
             draw()
+            textsurface = font.render("draw", False, (0, 0, 0))
+            font_w = textsurface.get_width()
+            font_h = textsurface.get_height()
+            s.blit(textsurface, (s.get_width() // 2 - font_w//2, s.get_height() // 2 - font_h//2))
+            pygame.display.update()
             time.sleep(5)
-            sys.exit(0)
+            break
         draw()
 
         for e in pygame.event.get():
