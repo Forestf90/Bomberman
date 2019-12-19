@@ -66,6 +66,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     TILE_WIDTH = scale
     TILE_HEIGHT = scale
 
+    global font
     font = pygame.font.SysFont('Bebas', scale)
     # WINDOW_WIDTH = 13 * TILE_WIDTH
     # WINDOW_HEIGHT = 13 * TILE_HEIGHT
@@ -321,6 +322,8 @@ def game_over():
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
-
+    explosions.clear()
+    enemy_list.clear()
+    ene_blocks.clear()
 
 #main()

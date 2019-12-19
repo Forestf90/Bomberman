@@ -1,6 +1,8 @@
 
 class Explosion:
 
+    bomber = None
+
     def __init__(self, x, y, r):
         self.sourceX = x
         self.sourceY = y
@@ -11,6 +13,7 @@ class Explosion:
 
     def explode(self, map, bombs, b):
 
+        self.bomber = b.bomber
         self.sectors.extend(b.sectors)
         bombs.remove(b)
         self.bomb_chain(bombs, map)

@@ -87,7 +87,10 @@ class Enemy:
         for e in exp:
             for s in e.sectors:
                 if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
+                    if e.bomber == self:
+                        print(self.algorithm.name + " SUICIDE")
                     self.life = False
+                    return
 
     def dfs(self, grid):
 
