@@ -88,7 +88,7 @@ class Enemy:
             for s in e.sectors:
                 if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
                     if e.bomber == self:
-                        print(self.algorithm.name + " SUICIDE")
+                        print(str(self.algorithm.value) + " SUICIDE")
                     self.life = False
                     return
 

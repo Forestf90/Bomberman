@@ -7,7 +7,7 @@ class Bomb:
         self.range = r
         self.posX = x
         self.posY = y
-        self.time = 1000
+        self.time = 3000
         self.bomber = bomber
         self.sectors = []
         self.get_range(map)
@@ -16,9 +16,9 @@ class Bomb:
 
         self.time = self.time - dt
 
-        if self.time < 666:
+        if self.time < 1000:
             self.frame = 2
-        elif self.time < 333:
+        elif self.time < 2000:
             self.frame = 1
 
     def get_range(self, map):

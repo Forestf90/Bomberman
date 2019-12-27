@@ -68,8 +68,6 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
 
     global font
     font = pygame.font.SysFont('Bebas', scale)
-    # WINDOW_WIDTH = 13 * TILE_WIDTH
-    # WINDOW_HEIGHT = 13 * TILE_HEIGHT
 
     global show_path
     show_path = path
@@ -84,6 +82,14 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     global enemy_list
     global ene_blocks
     global player
+
+    enemy_list = []
+    ene_blocks = []
+    global explosions
+    global bombs
+    bombs.clear()
+    explosions.clear()
+
     player = Player()
 
     if en1_alg is not Algorithm.NONE:
@@ -205,7 +211,6 @@ def main():
     generate_map()
     while player.life:
         dt = clock.tick(15)
-        print("fdsfasdgasdgsadg")
         for en in enemy_list:
             en.make_move(grid, bombs, explosions, ene_blocks)
         keys = pygame.key.get_pressed()
@@ -283,9 +288,8 @@ def update_bombs(dt):
 
 def game_over():
 
-
     while True:
-        dt = clock.tick(50)
+        dt = clock.tick(15)
         update_bombs(dt)
         count = 0
         winner = ""
@@ -294,28 +298,27 @@ def game_over():
             if en.life:
                 count += 1
                 winner = en.algorithm.name
-        #print(enemy_list)
         if count == 1:
-            print(winner)
+            #print(winner)
             draw()
             textsurface = font.render(winner + " wins", False, (0, 0, 0))
             font_w = textsurface.get_width()
             font_h = textsurface.get_height()
             s.blit(textsurface, (s.get_width() // 2 - font_w//2,  s.get_height() // 2 - font_h//2))
             pygame.display.update()
-            time.sleep(5)
+            time.sleep(2)
             # pygame.quit()
             # sys.exit(0)
             break
         if count == 0:
-            print("draw")
+            #print("draw")
             draw()
-            textsurface = font.render("draw", False, (0, 0, 0))
+            textsurface = font.render("Draw", False, (0, 0, 0))
             font_w = textsurface.get_width()
             font_h = textsurface.get_height()
             s.blit(textsurface, (s.get_width() // 2 - font_w//2, s.get_height() // 2 - font_h//2))
             pygame.display.update()
-            time.sleep(5)
+            time.sleep(2)
             break
         draw()
 

@@ -52,8 +52,7 @@ def change_enemy3(value, c):
 
 
 def run_game():
-    for i in range(1000):
-        game.game_init(show_path, player_alg, en1_alg, en2_alg, en3_alg, TILE_SIZE)
+    game.game_init(show_path, player_alg, en1_alg, en2_alg, en3_alg, TILE_SIZE)
 
 
 def main_background():
