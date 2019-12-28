@@ -18,10 +18,10 @@ WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
 
 clock = None
 # main_menu = None
-player_alg = Algorithm.DFS
+player_alg = Algorithm.PLAYER
 en1_alg = Algorithm.DIJKSTRA
-en2_alg = Algorithm.NONE
-en3_alg = Algorithm.NONE
+en2_alg = Algorithm.DFS
+en3_alg = Algorithm.DIJKSTRA
 show_path = True
 surface = pygame.display.set_mode(WINDOW_SIZE)
 
@@ -104,13 +104,13 @@ def menu_loop():
                                    window_width=WINDOW_SIZE[0]
                                    )
     play_options.add_selector("Character 1", [("Player", Algorithm.PLAYER), ("DFS", Algorithm.DFS),
-                                              ("DIJKSTRA", Algorithm.DIJKSTRA), ("None", Algorithm.NONE)], onchange=change_player, default=1)
+                                              ("DIJKSTRA", Algorithm.DIJKSTRA), ("None", Algorithm.NONE)], onchange=change_player)
     play_options.add_selector("Character 2", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
                                               ("None", Algorithm.NONE)], onchange=change_enemy1)
     play_options.add_selector("Character 3", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
-                                              ("None", Algorithm.NONE)], onchange=change_enemy2,  default=2)
+                                              ("None", Algorithm.NONE)], onchange=change_enemy2,  default=1)
     play_options.add_selector("Character 4", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
-                                              ("None", Algorithm.NONE)], onchange=change_enemy3, default=2)
+                                              ("None", Algorithm.NONE)], onchange=change_enemy3)
     play_options.add_selector("Show path", [("Yes", True), ("No", False)], onchange=change_path)
 
     play_options.add_option('Back', pygameMenu.events.BACK)

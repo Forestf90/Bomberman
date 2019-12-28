@@ -2,6 +2,8 @@
  
 Bomberman clone written in python using pygame. 
  
+![](images/bomberman.gif)
+ 
 Game allow to play against two types of AI (Dijkstra Algorithm and Depth-first search) 
  
 ![](images/git1.png)
