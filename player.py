@@ -1,7 +1,7 @@
-import pygame, math
+import pygame
+import math
 
 from bomb import Bomb
-from explosion import Explosion
 
 
 class Player:
@@ -13,15 +13,8 @@ class Player:
     range = 3
     bomb_limit = 1
 
-    # frontAnimation = []
-    # backAnimation = []
-    # leftAnimation = []
-    # rightAnimation = []
-    # deathAnimation = []
-
     def __init__(self):
         self.life = True
-        #self.load_animations()
 
     def move(self, dx, dy, grid, enemys):
         tempx = int(self.posX/4)

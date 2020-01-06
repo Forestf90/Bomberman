@@ -1,19 +1,12 @@
-import pygame, random
+import pygame
+import random
 from bomb import Bomb
 from node import Node
-from explosion import Explosion
 from algorithm import Algorithm
 
 
 class Enemy:
-    # posX = 4*11
-    # posY = 4*11
-    # direction = 0
-    # frame = 0
-    # animation = []
-    # range = 3
-    # bomb_limit = 1
-    # plant = False
+
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
     def __init__(self, x, y, alg):
@@ -94,8 +87,7 @@ class Enemy:
 
     def dfs(self, grid):
 
-        new_path = []
-        new_path.append([int(self.posX / 4), int(self.posY / 4)])
+        new_path = [[int(self.posX / 4), int(self.posY / 4)]]
         depth = 0
         if self.bomb_limit == 0:
             self.dfs_rec(grid, 0, new_path, depth)
@@ -159,8 +151,6 @@ class Enemy:
 
     def dijkstra(self, grid):
 
-        # new_path = []
-        # new_path.append([int(self.posX/4), int(self.posY/4)])
         end = 1
         if self.bomb_limit == 0:
             end = 0
@@ -372,19 +362,3 @@ class Enemy:
         self.animation.append(back)
         self.animation.append(left)
 
-    def __repr__(self):
-        return "life : "+str(self.life) + "\n path: " + str(self.path) + "\n x " + str(self.posX) + "\n y " + str(self.posY)
-        + "direction " + str(self.direction) + "plant " + str(self.plant)
-
-    # self.life
-    # self.path = []
-    # self.movement_path = []
-    # self.posX = x * 4
-    # self.posY = y * 4
-    # self.direction = 0
-    # self.frame = 0
-    # self.animation = []
-    # self.range = 3
-    # self.bomb_limit = 1
-    # self.plant = False
-    # self.algorithm = alg

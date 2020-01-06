@@ -7,7 +7,6 @@ from algorithm import Algorithm
 COLOR_BACKGROUND = (153, 153, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
-FPS = 60.0
 MENU_BACKGROUND_COLOR = (102, 102, 153)
 MENU_TITLE_COLOR = (51, 51, 255)
 
@@ -17,7 +16,6 @@ TILE_SIZE = int(INFO.current_h * 0.035)
 WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
 
 clock = None
-# main_menu = None
 player_alg = Algorithm.PLAYER
 en1_alg = Algorithm.DIJKSTRA
 en2_alg = Algorithm.DFS
@@ -175,21 +173,15 @@ def menu_loop():
     main_menu.add_option('Quit', pygameMenu.events.EXIT)
     while True:
 
-        # Tick
-        clock.tick(FPS)
-
-        # Paint background
+        clock.tick(60)
         main_background()
 
-        # Application events
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
 
-        # Main menu
         main_menu.mainloop(events)
-        # Flip surface
         pygame.display.flip()
 
 
