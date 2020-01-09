@@ -17,7 +17,6 @@ TILE_SIZE = int(INFO.current_h * 0.035)
 WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
 
 clock = None
-# main_menu = None
 player_alg = Algorithm.PLAYER
 en1_alg = Algorithm.DIJKSTRA
 en2_alg = Algorithm.DFS
@@ -66,7 +65,6 @@ def menu_loop():
     pygame.display.set_caption('Bomberman')
     clock = pygame.time.Clock()
 
-    # Play menu
     play_menu = pygameMenu.Menu(surface,
                                 bgfun=main_background,
                                 color_selected=COLOR_WHITE,
@@ -119,7 +117,7 @@ def menu_loop():
 
     play_menu.add_option('Options', play_options)
     play_menu.add_option('Return to main menu', pygameMenu.events.BACK)
-    # About menu
+
     about_menu = pygameMenu.TextMenu(surface,
                                      bgfun=main_background,
                                      color_selected=COLOR_WHITE,
@@ -144,13 +142,10 @@ def menu_loop():
     about_menu.add_line("Plant bomb:_Space")
     about_menu.add_line("Author:_Michal_Sliwa")
     about_menu.add_line("Sprite: ")
-    # about_menu.add_line("Original Bomb Party sprite sheet by")
-    # about_menu.add_line("Matt Hackett of Lost Decade Games,")
-    # about_menu.add_line("expanded by Cem Kalyoncu and /usr/share.")
-    # about_menu.add_line("Link :")
+
     about_menu.add_line("https://opengameart.org/content")
     about_menu.add_line("/bomb-party-the-complete-set")
-    # Main menu
+
     main_menu = pygameMenu.Menu(surface,
                                 bgfun=main_background,
                                 color_selected=COLOR_WHITE,
@@ -175,21 +170,17 @@ def menu_loop():
     main_menu.add_option('Quit', pygameMenu.events.EXIT)
     while True:
 
-        # Tick
         clock.tick(FPS)
 
-        # Paint background
         main_background()
 
-        # Application events
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
 
-        # Main menu
         main_menu.mainloop(events)
-        # Flip surface
+
         pygame.display.flip()
 
 

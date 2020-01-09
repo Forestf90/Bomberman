@@ -1,5 +1,3 @@
-
-
 class Bomb:
     frame = 0
 

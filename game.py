@@ -1,4 +1,7 @@
-import pygame, sys, random, time
+import pygame
+import sys
+import random
+import time
 from player import Player
 from explosion import Explosion
 from enemy import Enemy
@@ -111,7 +114,6 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
         ene_blocks.append(en3)
 
     if player_alg is Algorithm.PLAYER:
-        # player = Player()
         player.load_animations(scale)
         ene_blocks.append(player)
     elif player_alg is not Algorithm.NONE:
@@ -119,7 +121,6 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
         en0.load_animations('', scale)
         enemy_list.append(en0)
         ene_blocks.append(en0)
-        # player = Player()
         player.life = False
     else:
         player.life = False
@@ -176,8 +177,6 @@ def draw():
     if player.life:
         s.blit(player.animation[player.direction][player.frame],
                (player.posX * (TILE_WIDTH / 4), player.posY * (TILE_HEIGHT / 4), TILE_WIDTH, TILE_HEIGHT))
-    # else:
-    #     s.blit(TEXT_LOSE, ((WINDOW_WIDTH / 2) - 30, (WINDOW_HEIGHT / 2) - 30))
     for en in enemy_list:
         if en.life:
             s.blit(en.animation[en.direction][en.frame],
@@ -218,22 +217,18 @@ def main():
         movement = False
         if keys[pygame.K_DOWN]:
             temp = 0
-            # player.posY += 1
             player.move(0, 1, grid, ene_blocks)
             movement = True
         elif keys[pygame.K_RIGHT]:
             temp = 1
-            # player.posX += 1
             player.move(1, 0, grid, ene_blocks)
             movement = True
         elif keys[pygame.K_UP]:
             temp = 2
-            # player.posY -= 1
             player.move(0, -1, grid, ene_blocks)
             movement = True
         elif keys[pygame.K_LEFT]:
             temp = 3
-            # player.posX -= 1
             player.move(-1, 0, grid, ene_blocks)
             movement = True
         if temp != player.direction:
@@ -244,10 +239,6 @@ def main():
                 player.frame = 0
             else:
                 player.frame += 1
-        # if keys[pygame.K_SPACE]:
-        #     temp_bomb = player.plant_bomb()
-        #     bombs.append(temp_bomb)
-        #     map[temp_bomb.posX][temp_bomb.posY] = 3
 
         draw()
         for e in pygame.event.get():
@@ -299,7 +290,6 @@ def game_over():
                 count += 1
                 winner = en.algorithm.name
         if count == 1:
-            #print(winner)
             draw()
             textsurface = font.render(winner + " wins", False, (0, 0, 0))
             font_w = textsurface.get_width()
@@ -307,11 +297,8 @@ def game_over():
             s.blit(textsurface, (s.get_width() // 2 - font_w//2,  s.get_height() // 2 - font_h//2))
             pygame.display.update()
             time.sleep(2)
-            # pygame.quit()
-            # sys.exit(0)
             break
         if count == 0:
-            #print("draw")
             draw()
             textsurface = font.render("Draw", False, (0, 0, 0))
             font_w = textsurface.get_width()
@@ -328,5 +315,3 @@ def game_over():
     explosions.clear()
     enemy_list.clear()
     ene_blocks.clear()
-
-#main()

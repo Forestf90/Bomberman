@@ -35,8 +35,6 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(False, [0, 1] in bomb.sectors)
 
     def test_bomb_explode(self):
-        # en = Enemy(11, 11)
-        # game.player = Player()
         temp_bomb = Bomb(3, 11, 11, game.grid, game.enemy_list[0])
         game.bombs.append(temp_bomb)
 

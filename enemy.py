@@ -1,4 +1,5 @@
-import pygame, random
+import pygame
+import random
 from bomb import Bomb
 from node import Node
 from explosion import Explosion
@@ -6,14 +7,7 @@ from algorithm import Algorithm
 
 
 class Enemy:
-    # posX = 4*11
-    # posY = 4*11
-    # direction = 0
-    # frame = 0
-    # animation = []
-    # range = 3
-    # bomb_limit = 1
-    # plant = False
+
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
     def __init__(self, x, y, alg):
@@ -29,7 +23,6 @@ class Enemy:
         self.bomb_limit = 1
         self.plant = False
         self.algorithm = alg
-        # self.load_animations(n)
 
     def move(self, map, bombs, explosions, enemy):
 
@@ -62,8 +55,6 @@ class Enemy:
         if not self.life:
             return
         if len(self.movement_path) == 0:
-            # self.movment_path.clear()
-            # self.path.clear()
             if self.plant:
                 bombs.append(self.plant_bomb(map))
                 self.plant = False
@@ -159,8 +150,6 @@ class Enemy:
 
     def dijkstra(self, grid):
 
-        # new_path = []
-        # new_path.append([int(self.posX/4), int(self.posY/4)])
         end = 1
         if self.bomb_limit == 0:
             end = 0
@@ -176,7 +165,6 @@ class Enemy:
             if (current.value == end and end == 0) or\
                     (end == 1 and (grid[current.x+1][current.y].value == 1 or grid[current.x-1][current.y].value == 1 or
                 grid[current.x][current.y+1].value == 1 or grid[current.x][current.y-1].value == 1)):
-                # if end == 1:
                 new_path.append([current.x, current.y])
                 while True:
                     if current.parent is None:
@@ -185,7 +173,6 @@ class Enemy:
                     new_path.append([current.x, current.y])
                 new_path.reverse()
                 for xd in range(len(new_path)):
-                    # print(xd.x, xd.y)
                     if new_path[xd] is not new_path[-1]:
                         if new_path[xd][0] - new_path[xd+1][0] == -1:
                             self.movement_path.append(1)
@@ -230,7 +217,6 @@ class Enemy:
             open_list.remove(next_node)
             current = next_node
 
-        # self.path = new_path
 
     def create_grid(self, map, bombs, explosions, enemys):
         grid = [[0] * len(map) for r in range(len(map))]
@@ -288,7 +274,6 @@ class Enemy:
         for b in bombs:
             b.get_range(map)
             for x in b.sectors:
-               # grid[x[0]][x[1]].reach = True
                 grid[x[0]][x[1]].weight = 5
                 grid[x[0]][x[1]].value = 3
             grid[b.posX][b.posY].reach = False
