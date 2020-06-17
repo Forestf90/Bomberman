@@ -1,5 +1,5 @@
 import pygame
-import pygameMenu
+import pygame_menu
 
 import game
 from algorithm import Algorithm
@@ -65,42 +65,30 @@ def menu_loop():
     pygame.display.set_caption('Bomberman')
     clock = pygame.time.Clock()
 
-    play_menu = pygameMenu.Menu(surface,
-                                bgfun=main_background,
-                                color_selected=COLOR_WHITE,
-                                font=pygameMenu.font.FONT_BEBAS,
-                                font_size_title=TILE_SIZE,
-                                font_color=COLOR_BLACK,
-                                font_size=int(TILE_SIZE*0.8),
-                                menu_alpha=100,
-                                menu_color=MENU_BACKGROUND_COLOR,
-                                menu_color_title=MENU_TITLE_COLOR,
-                                menu_height=int(WINDOW_SIZE[1] * 0.7),
-                                menu_width=int(WINDOW_SIZE[0] * 0.7),
-                                onclose=pygameMenu.events.DISABLE_CLOSE,
-                                option_shadow=False,
-                                title='Play menu',
-                                window_height=WINDOW_SIZE[1],
-                                window_width=WINDOW_SIZE[0]
-                                )
+    menu_theme = pygame_menu.themes.Theme(
+        selection_color=COLOR_WHITE,
+        widget_font=pygame_menu.font.FONT_BEBAS,
+        title_font_size=int(TILE_SIZE*0.8),
+        widget_font_color=COLOR_BLACK,
+        widget_font_size=int(TILE_SIZE*0.7),
+        background_color=MENU_BACKGROUND_COLOR,
+        title_background_color=MENU_TITLE_COLOR,
+        widget_shadow=False
+    )
 
-    play_options = pygameMenu.Menu(surface,
-                                   bgfun=main_background,
-                                   color_selected=COLOR_WHITE,
-                                   font=pygameMenu.font.FONT_BEBAS,
-                                   font_size_title=TILE_SIZE,
-                                   font_color=COLOR_BLACK,
-                                   font_size=int(TILE_SIZE*0.8),
-                                   menu_alpha=100,
-                                   menu_color=MENU_BACKGROUND_COLOR,
-                                   menu_color_title=MENU_TITLE_COLOR,
-                                   menu_height=int(WINDOW_SIZE[1] * 0.7),
-                                   menu_width=int(WINDOW_SIZE[0] * 0.7),
-                                   option_shadow=False,
-                                   title='Options',
-                                   window_height=WINDOW_SIZE[1],
-                                   window_width=WINDOW_SIZE[0]
-                                   )
+    play_menu = pygame_menu.Menu(
+        theme=menu_theme,
+        height=int(WINDOW_SIZE[1] * 0.7),
+        width=int(WINDOW_SIZE[0] * 0.7),
+        onclose=pygame_menu.events.DISABLE_CLOSE,
+        title='Play menu'
+    )
+
+    play_options = pygame_menu.Menu(theme=menu_theme,
+        height=int(WINDOW_SIZE[1] * 0.7),
+        width=int(WINDOW_SIZE[0] * 0.7),
+        title='Options'
+    )
     play_options.add_selector("Character 1", [("Player", Algorithm.PLAYER), ("DFS", Algorithm.DFS),
                                               ("DIJKSTRA", Algorithm.DIJKSTRA), ("None", Algorithm.NONE)], onchange=change_player)
     play_options.add_selector("Character 2", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
@@ -111,63 +99,50 @@ def menu_loop():
                                               ("None", Algorithm.NONE)], onchange=change_enemy3)
     play_options.add_selector("Show path", [("Yes", True), ("No", False)], onchange=change_path)
 
-    play_options.add_option('Back', pygameMenu.events.BACK)
-    play_menu.add_option('Start',
+    play_options.add_button('Back', pygame_menu.events.BACK)
+    play_menu.add_button('Start',
                          run_game)
 
-    play_menu.add_option('Options', play_options)
-    play_menu.add_option('Return to main menu', pygameMenu.events.BACK)
+    play_menu.add_button('Options', play_options)
+    play_menu.add_button('Return  to  main  menu', pygame_menu.events.BACK)
 
-    about_menu = pygameMenu.TextMenu(surface,
-                                     bgfun=main_background,
-                                     color_selected=COLOR_WHITE,
-                                     font=pygameMenu.font.FONT_BEBAS,
-                                     font_color=COLOR_BLACK,
-                                     font_size_title=TILE_SIZE,
-                                     font_title=pygameMenu.font.FONT_BEBAS,
-                                     menu_color=MENU_BACKGROUND_COLOR,
-                                     menu_color_title=MENU_TITLE_COLOR,
-                                     menu_height=int(WINDOW_SIZE[1] * 0.7),
-                                     menu_width=int(WINDOW_SIZE[0] * 0.7),
-                                     onclose=pygameMenu.events.DISABLE_CLOSE,
-                                     option_shadow=False,
-                                     text_color=COLOR_BLACK,
-                                     text_fontsize=int(TILE_SIZE*0.4),
-                                     title='About',
-                                     window_height=WINDOW_SIZE[1],
-                                     window_width=WINDOW_SIZE[0]
-                                     )
-    about_menu.add_line("Player_controls: ")
-    about_menu.add_line("Movement:_Arrows")
-    about_menu.add_line("Plant bomb:_Space")
-    about_menu.add_line("Author:_Michal_Sliwa")
-    about_menu.add_line("Sprite: ")
+    about_menu_theme = pygame_menu.themes.Theme(
+        selection_color=COLOR_WHITE,
+        widget_font=pygame_menu.font.FONT_BEBAS,
+        title_font_size=TILE_SIZE,
+        widget_font_color=COLOR_BLACK,
+        widget_font_size=int(TILE_SIZE*0.4),
+        background_color=MENU_BACKGROUND_COLOR,
+        title_background_color=MENU_TITLE_COLOR,
+        widget_shadow=False
+    )
 
-    about_menu.add_line("https://opengameart.org/content")
-    about_menu.add_line("/bomb-party-the-complete-set")
+    about_menu = pygame_menu.Menu(theme=about_menu_theme,
+        height=int(WINDOW_SIZE[1] * 0.7),
+        width=int(WINDOW_SIZE[0] * 0.7),
+        onclose=pygame_menu.events.DISABLE_CLOSE,
+        title='About'
+    )
+    about_menu.add_label("Player_controls: ")
+    about_menu.add_label("Movement:_Arrows")
+    about_menu.add_label("Plant bomb:_Space")
+    about_menu.add_label("Author:_Michal_Sliwa")
+    about_menu.add_label("Sprite: ")
 
-    main_menu = pygameMenu.Menu(surface,
-                                bgfun=main_background,
-                                color_selected=COLOR_WHITE,
-                                font=pygameMenu.font.FONT_BEBAS,
-                                font_size_title=TILE_SIZE,
-                                font_color=COLOR_BLACK,
-                                font_size=TILE_SIZE,
-                                menu_alpha=100,
-                                menu_color=MENU_BACKGROUND_COLOR,
-                                menu_color_title=MENU_TITLE_COLOR,
-                                menu_height=int(WINDOW_SIZE[1] * 0.6),
-                                menu_width=int(WINDOW_SIZE[0] * 0.6),
-                                onclose=pygameMenu.events.DISABLE_CLOSE,
-                                option_shadow=False,
-                                title='Main menu',
-                                window_height=WINDOW_SIZE[1],
-                                window_width=WINDOW_SIZE[0]
-                                )
+    about_menu.add_label("https://opengameart.org/content")
+    about_menu.add_label("/bomb-party-the-complete-set")
 
-    main_menu.add_option('Play', play_menu)
-    main_menu.add_option('About', about_menu)
-    main_menu.add_option('Quit', pygameMenu.events.EXIT)
+    main_menu = pygame_menu.Menu(
+        theme=menu_theme,
+        height=int(WINDOW_SIZE[1] * 0.6),
+        width=int(WINDOW_SIZE[0] * 0.6),
+        onclose=pygame_menu.events.DISABLE_CLOSE,
+        title='Main menu'
+    )
+
+    main_menu.add_button('Play', play_menu)
+    main_menu.add_button('About', about_menu)
+    main_menu.add_button('Quit', pygame_menu.events.EXIT)
     while True:
 
         clock.tick(FPS)
@@ -179,7 +154,9 @@ def menu_loop():
             if event.type == pygame.QUIT:
                 exit()
 
-        main_menu.mainloop(events)
+        main_menu.mainloop(surface, main_background, disable_loop=False, fps_limit=0)
+        main_menu.update(events)
+        main_menu.draw(surface)
 
         pygame.display.flip()
 
