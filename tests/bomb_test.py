@@ -1,10 +1,10 @@
 import unittest
 
 import game
-from bomb import Bomb
-from enemy import Enemy
-from player import Player
-from algorithm import Algorithm
+from Bombs.bomb import Bomb
+from Players.enemy import Enemy
+from Players.player import Player
+from Players.AI.algorithm import Algorithm
 
 
 class MyTestCase(unittest.TestCase):

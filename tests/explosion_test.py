@@ -1,9 +1,9 @@
 import unittest
 import game
 
-from enemy import Enemy
-from player import Player
-from algorithm import Algorithm
+from Players.enemy import Enemy
+from Players.player import Player
+from Players.AI.algorithm import Algorithm
 
 
 class MyTestCase(unittest.TestCase):

@@ -1,20 +1,21 @@
 import pygame
 import random
-from bomb import Bomb
-from node import Node
-from algorithm import Algorithm
+from Bombs.bomb import Bomb
+from Players.AI.node import Node
+from Players.AI.algorithm import Algorithm
 
 
 class Enemy:
 
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
-    def __init__(self, x, y, alg):
+    def __init__(self, x_pos, y_pos, alg):
+        self.name = ''
         self.life = True
         self.path = []
         self.movement_path = []
-        self.posX = x * 4
-        self.posY = y * 4
+        self.posX = x_pos * 4
+        self.posY = y_pos * 4
         self.direction = 0
         self.frame = 0
         self.animation = []
@@ -22,6 +23,9 @@ class Enemy:
         self.bomb_limit = 1
         self.plant = False
         self.algorithm = alg
+
+    def get_name(self):
+        return self.algorithm.name
 
     def move(self, map, bombs, explosions, enemy):
 
@@ -298,9 +302,9 @@ class Enemy:
         resize_width = scale
         resize_height = scale
 
-        image_path = 'images/enemy/e'
+        image_path = 'Players/images/enemy/e'
         if en == '':
-            image_path = 'images/hero/p'
+            image_path = 'Players/images/hero/p'
 
         f1 = pygame.image.load(image_path + en + 'f0.png')
         f2 = pygame.image.load(image_path + en + 'f1.png')

@@ -1,10 +1,9 @@
 class Bomb:
-    frame = 0
-
-    def __init__(self, r, x, y, map, bomber):
-        self.range = r
+    def __init__(self, range, x, y, map, bomber):
+        self.range = range
         self.posX = x
         self.posY = y
+        self.frame = 0
         self.time = 3000
         self.bomber = bomber
         self.sectors = []
@@ -14,10 +13,10 @@ class Bomb:
 
         self.time = self.time - dt
 
-        if self.time < 1000:
-            self.frame = 2
-        elif self.time < 2000:
+        if 1000 < self.time <= 2000:
             self.frame = 1
+        elif self.time < 1000:
+            self.frame = 2
 
     def get_range(self, map):
 
