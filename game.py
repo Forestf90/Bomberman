@@ -279,7 +279,8 @@ def update_bombs(dt):
 
 def game_over():
 
-    while True:
+    running = True
+    while running:
         dt = clock.tick(15)
         update_bombs(dt)
         count = 0
@@ -311,7 +312,10 @@ def game_over():
 
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
-                sys.exit(0)
+                running = False
+
     explosions.clear()
     enemy_list.clear()
     ene_blocks.clear()
+    sys.exit(0)
+
