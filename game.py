@@ -9,11 +9,12 @@ from algorithm import Algorithm
 
 TILE_WIDTH = 40
 TILE_HEIGHT = 40
+TILE_COUNT = 13
 
-WINDOW_WIDTH = 13 * TILE_WIDTH
-WINDOW_HEIGHT = 13 * TILE_HEIGHT
+WINDOW_WIDTH = TILE_COUNT * TILE_WIDTH
+WINDOW_HEIGHT = TILE_COUNT * TILE_HEIGHT
 
-BACKGROUND = (107, 142, 35)
+BACKGROUND_COLOR = (107, 142, 35)
 
 
 s = None
@@ -76,7 +77,7 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     show_path = path
 
     global s
-    s = pygame.display.set_mode((13 * TILE_WIDTH, 13 * TILE_HEIGHT))
+    s = pygame.display.set_mode((TILE_COUNT * TILE_WIDTH, TILE_COUNT * TILE_HEIGHT))
     pygame.display.set_caption('Bomberman')
 
     global clock
@@ -162,8 +163,8 @@ def game_init(path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     main()
 
 
-def draw():
-    s.fill(BACKGROUND)
+def draw(game_ended):
+    s.fill(BACKGROUND_COLOR)
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             s.blit(terrain_images[grid[i][j]], (i * TILE_WIDTH, j * TILE_HEIGHT, TILE_HEIGHT, TILE_WIDTH))
@@ -189,6 +190,10 @@ def draw():
                     for sek in en.path:
                         pygame.draw.rect(s, (255, 0, 255, 240), [sek[0] * TILE_WIDTH, sek[1] * TILE_HEIGHT, TILE_WIDTH, TILE_WIDTH], 1)
 
+    if game_ended:
+        textsurface = font.render("Press ESC to go back to menu", False, (153, 153, 255))
+        s.blit(textsurface, (10, 10))
+
     pygame.display.update()
 
 
@@ -208,53 +213,67 @@ def generate_map():
 
 def main():
     generate_map()
-    while player.life:
+    running = True
+    game_ended = False
+    while running:
         dt = clock.tick(15)
         for en in enemy_list:
             en.make_move(grid, bombs, explosions, ene_blocks)
-        keys = pygame.key.get_pressed()
-        temp = player.direction
-        movement = False
-        if keys[pygame.K_DOWN]:
-            temp = 0
-            player.move(0, 1, grid, ene_blocks)
-            movement = True
-        elif keys[pygame.K_RIGHT]:
-            temp = 1
-            player.move(1, 0, grid, ene_blocks)
-            movement = True
-        elif keys[pygame.K_UP]:
-            temp = 2
-            player.move(0, -1, grid, ene_blocks)
-            movement = True
-        elif keys[pygame.K_LEFT]:
-            temp = 3
-            player.move(-1, 0, grid, ene_blocks)
-            movement = True
-        if temp != player.direction:
-            player.frame = 0
-            player.direction = temp
-        if movement:
-            if player.frame == 2:
-                player.frame = 0
-            else:
-                player.frame += 1
 
-        draw()
+        if player.life:
+            keys = pygame.key.get_pressed()
+            temp = player.direction
+            movement = False
+            if keys[pygame.K_DOWN]:
+                temp = 0
+                player.move(0, 1, grid, ene_blocks)
+                movement = True
+            elif keys[pygame.K_RIGHT]:
+                temp = 1
+                player.move(1, 0, grid, ene_blocks)
+                movement = True
+            elif keys[pygame.K_UP]:
+                temp = 2
+                player.move(0, -1, grid, ene_blocks)
+                movement = True
+            elif keys[pygame.K_LEFT]:
+                temp = 3
+                player.move(-1, 0, grid, ene_blocks)
+                movement = True
+            if temp != player.direction:
+                player.frame = 0
+                player.direction = temp
+            if movement:
+                if player.frame == 2:
+                    player.frame = 0
+                else:
+                    player.frame += 1
+
+        draw(game_ended)
+
+        if not game_ended:
+            game_ended = check_end_game()
+
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 sys.exit(0)
             elif e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_SPACE:
-                    if player.bomb_limit == 0:
+                    if player.bomb_limit == 0 and player.life:
                         continue
                     temp_bomb = player.plant_bomb(grid)
                     bombs.append(temp_bomb)
                     grid[temp_bomb.posX][temp_bomb.posY] = 3
                     player.bomb_limit -= 1
+                elif e.key == pygame.K_ESCAPE:
+                    running = False
 
         update_bombs(dt)
-    game_over()
+
+    explosions.clear()
+    enemy_list.clear()
+    ene_blocks.clear()
+    sys.exit(0)
 
 
 def update_bombs(dt):
@@ -277,45 +296,12 @@ def update_bombs(dt):
             explosions.remove(e)
 
 
-def game_over():
+def check_end_game():
+    if not player.life:
+        return True
 
-    running = True
-    while running:
-        dt = clock.tick(15)
-        update_bombs(dt)
-        count = 0
-        winner = ""
-        for en in enemy_list:
-            en.make_move(grid, bombs, explosions, ene_blocks)
-            if en.life:
-                count += 1
-                winner = en.algorithm.name
-        if count == 1:
-            draw()
-            textsurface = font.render(winner + " wins", False, (0, 0, 0))
-            font_w = textsurface.get_width()
-            font_h = textsurface.get_height()
-            s.blit(textsurface, (s.get_width() // 2 - font_w//2,  s.get_height() // 2 - font_h//2))
-            pygame.display.update()
-            time.sleep(2)
-            break
-        if count == 0:
-            draw()
-            textsurface = font.render("Draw", False, (0, 0, 0))
-            font_w = textsurface.get_width()
-            font_h = textsurface.get_height()
-            s.blit(textsurface, (s.get_width() // 2 - font_w//2, s.get_height() // 2 - font_h//2))
-            pygame.display.update()
-            time.sleep(2)
-            break
-        draw()
+    for en in enemy_list:
+        if en.life:
+            return False
 
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                running = False
-
-    explosions.clear()
-    enemy_list.clear()
-    ene_blocks.clear()
-    sys.exit(0)
-
+    return True
