@@ -10,11 +10,11 @@ from algorithm import Algorithm
 class MyTestCase(unittest.TestCase):
 
     def setUp(self):
-        game.enemy_list.append(Enemy(11, 11, Algorithm.BFS))
+        game.enemy_list.append(Enemy(11, 11, Algorithm.DFS))
         game.player = Player()
 
     def test_plant(self):
-        bomb = game.player.plant_bomb(game.grid)
+        bomb = game.player.plant_bomb(game.GRID_BASE)
 
         self.assertEqual(1, bomb.posX)
         self.assertEqual(1, bomb.posY)
@@ -22,7 +22,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_get_range(self):
 
-        bomb = game.player.plant_bomb(game.grid)
+        bomb = game.player.plant_bomb(game.GRID_BASE)
 
         self.assertEqual(5, len(bomb.sectors))
         self.assertEqual(True, [1, 1] in bomb.sectors)
@@ -35,15 +35,15 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(False, [0, 1] in bomb.sectors)
 
     def test_bomb_explode(self):
-        temp_bomb = Bomb(3, 11, 11, game.grid, game.enemy_list[0])
+        temp_bomb = Bomb(3, 11, 11, game.GRID_BASE, game.enemy_list[0])
         game.bombs.append(temp_bomb)
 
-        game.update_bombs(2980)
+        game.update_bombs(game.GRID_BASE, 2980)
 
         self.assertEqual(1, len(game.bombs))
         self.assertEqual(20, temp_bomb.time)
 
-        game.update_bombs(50)
+        game.update_bombs(game.GRID_BASE, 50)
 
         self.assertEqual(0, len(game.bombs))
         self.assertEqual(1, len(game.explosions))
