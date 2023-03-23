@@ -2,7 +2,7 @@ import pygame
 import random
 from bomb import Bomb
 from node import Node
-from algorithm import Algorithm
+from enums.algorithm import Algorithm
 
 
 class Enemy:

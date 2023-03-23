@@ -1,10 +1,13 @@
 import pygame
 import sys
 import random
+
+from enums.power_up_type import PowerUpType
 from player import Player
 from explosion import Explosion
 from enemy import Enemy
-from algorithm import Algorithm
+from enums.algorithm import Algorithm
+from power_up import PowerUp
 
 BACKGROUND_COLOR = (107, 142, 35)
 
@@ -15,6 +18,7 @@ enemy_list = []
 ene_blocks = []
 bombs = []
 explosions = []
+power_ups = []
 
 GRID_BASE = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
              [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -44,8 +48,10 @@ def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     ene_blocks = []
     global explosions
     global bombs
+    global power_ups
     bombs.clear()
     explosions.clear()
+    power_ups.clear()
 
     player = Player()
 
@@ -110,14 +116,25 @@ def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     bomb_images = [bomb1_img, bomb2_img, bomb3_img]
     explosion_images = [explosion1_img, explosion2_img, explosion3_img]
 
-    main(surface, scale, path, terrain_images, bomb_images, explosion_images)
+    power_up_bomb_img = pygame.image.load('images/power_up/bomb.png')
+    power_up_bomb_img = pygame.transform.scale(power_up_bomb_img, (scale, scale))
+
+    power_up_fire_img = pygame.image.load('images/power_up/fire.png')
+    power_up_fire_img = pygame.transform.scale(power_up_fire_img, (scale, scale))
+
+    power_ups_images = [power_up_bomb_img, power_up_fire_img]
+
+    main(surface, scale, path, terrain_images, bomb_images, explosion_images, power_ups_images)
 
 
-def draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images, explosion_images):
+def draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images, explosion_images, power_ups_images):
     s.fill(BACKGROUND_COLOR)
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             s.blit(terrain_images[grid[i][j]], (i * tile_size, j * tile_size, tile_size, tile_size))
+
+    for pu in power_ups:
+        s.blit(power_ups_images[pu.type.value], (pu.pos_x * tile_size, pu.pos_y * tile_size, tile_size, tile_size))
 
     for x in bombs:
         s.blit(bomb_images[x.frame], (x.pos_x * tile_size, x.pos_y * tile_size, tile_size, tile_size))
@@ -162,11 +179,12 @@ def generate_map(grid):
     return
 
 
-def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images):
+def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images, power_ups_images):
 
     grid = [row[:] for row in GRID_BASE]
     generate_map(grid)
-
+    # power_ups.append(PowerUp(1, 2, PowerUpType.BOMB))
+    # power_ups.append(PowerUp(2, 1, PowerUpType.FIRE))
     clock = pygame.time.Clock()
 
     running = True
@@ -182,19 +200,19 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images)
             movement = False
             if keys[pygame.K_DOWN]:
                 temp = 0
-                player.move(0, 1, grid, ene_blocks)
+                player.move(0, 1, grid, ene_blocks, power_ups)
                 movement = True
             elif keys[pygame.K_RIGHT]:
                 temp = 1
-                player.move(1, 0, grid, ene_blocks)
+                player.move(1, 0, grid, ene_blocks, power_ups)
                 movement = True
             elif keys[pygame.K_UP]:
                 temp = 2
-                player.move(0, -1, grid, ene_blocks)
+                player.move(0, -1, grid, ene_blocks, power_ups)
                 movement = True
             elif keys[pygame.K_LEFT]:
                 temp = 3
-                player.move(-1, 0, grid, ene_blocks)
+                player.move(-1, 0, grid, ene_blocks, power_ups)
                 movement = True
             if temp != player.direction:
                 player.frame = 0
@@ -205,7 +223,7 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images)
                 else:
                     player.frame += 1
 
-        draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images, explosion_images)
+        draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images, explosion_images, power_ups_images)
 
         if not game_ended:
             game_ended = check_end_game()
@@ -229,6 +247,7 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images)
     explosions.clear()
     enemy_list.clear()
     ene_blocks.clear()
+    power_ups.clear()
 
 
 def update_bombs(grid, dt):
@@ -238,8 +257,8 @@ def update_bombs(grid, dt):
             b.bomber.bomb_limit += 1
             grid[b.pos_x][b.pos_y] = 0
             exp_temp = Explosion(b.pos_x, b.pos_y, b.range)
-            exp_temp.explode(grid, bombs, b)
-            exp_temp.clear_sectors(grid)
+            exp_temp.explode(grid, bombs, b, power_ups)
+            exp_temp.clear_sectors(grid, random, power_ups)
             explosions.append(exp_temp)
     if player not in enemy_list:
         player.check_death(explosions)

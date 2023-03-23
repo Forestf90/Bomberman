@@ -3,7 +3,7 @@ import game
 
 from enemy import Enemy
 from player import Player
-from algorithm import Algorithm
+from enums.algorithm import Algorithm
 
 
 class MyTestCase(unittest.TestCase):

@@ -2,6 +2,7 @@ import pygame
 import math
 
 from bomb import Bomb
+from enums.power_up_type import PowerUpType
 
 
 class Player:
@@ -18,7 +19,7 @@ class Player:
     def __init__(self):
         self.life = True
 
-    def move(self, dx, dy, grid, enemys):
+    def move(self, dx, dy, grid, enemys, power_ups):
         tempx = int(self.pos_x / Player.TILE_SIZE)
         tempy = int(self.pos_y / Player.TILE_SIZE)
 
@@ -70,6 +71,11 @@ class Player:
             if map[tempx][tempy-1] == 0:
                 self.pos_y -= 1
 
+        for pu in power_ups:
+            if pu.pos_x == math.ceil(self.pos_x / Player.TILE_SIZE) \
+                    and pu.pos_y == math.ceil(self.pos_y / Player.TILE_SIZE):
+                self.consume_power_up(pu, power_ups)
+
     def plant_bomb(self, map):
         b = Bomb(self.range, round(self.pos_x / Player.TILE_SIZE), round(self.pos_y / Player.TILE_SIZE), map, self)
         return b
@@ -79,6 +85,14 @@ class Player:
             for s in e.sectors:
                 if int(self.pos_x / Player.TILE_SIZE) == s[0] and int(self.pos_y / Player.TILE_SIZE) == s[1]:
                     self.life = False
+
+    def consume_power_up(self, power_up, power_ups):
+        if power_up.type == PowerUpType.BOMB:
+            self.bomb_limit += 1
+        elif power_up.type == PowerUpType.FIRE:
+            self.range += 1
+
+        power_ups.remove(power_up)
 
     def load_animations(self, scale):
         front = []

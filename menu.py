@@ -2,7 +2,7 @@ import pygame
 import pygame_menu
 
 import game
-from algorithm import Algorithm
+from enums.algorithm import Algorithm
 
 COLOR_BACKGROUND = (153, 153, 255)
 COLOR_BLACK = (0, 0, 0)
