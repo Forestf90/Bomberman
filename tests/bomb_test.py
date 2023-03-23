@@ -16,8 +16,8 @@ class MyTestCase(unittest.TestCase):
     def test_plant(self):
         bomb = game.player.plant_bomb(game.GRID_BASE)
 
-        self.assertEqual(1, bomb.posX)
-        self.assertEqual(1, bomb.posY)
+        self.assertEqual(1, bomb.pos_x)
+        self.assertEqual(1, bomb.pos_y)
         self.assertEqual(3, bomb.range)
 
     def test_get_range(self):

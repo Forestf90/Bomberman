@@ -120,18 +120,18 @@ def draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images,
             s.blit(terrain_images[grid[i][j]], (i * tile_size, j * tile_size, tile_size, tile_size))
 
     for x in bombs:
-        s.blit(bomb_images[x.frame], (x.posX * tile_size, x.posY * tile_size, tile_size, tile_size))
+        s.blit(bomb_images[x.frame], (x.pos_x * tile_size, x.pos_y * tile_size, tile_size, tile_size))
 
     for y in explosions:
         for x in y.sectors:
             s.blit(explosion_images[y.frame], (x[0] * tile_size, x[1] * tile_size, tile_size, tile_size))
     if player.life:
         s.blit(player.animation[player.direction][player.frame],
-               (player.posX * (tile_size / 4), player.posY * (tile_size / 4), tile_size, tile_size))
+               (player.pos_x * (tile_size / 4), player.pos_y * (tile_size / 4), tile_size, tile_size))
     for en in enemy_list:
         if en.life:
             s.blit(en.animation[en.direction][en.frame],
-                   (en.posX * (tile_size / 4), en.posY * (tile_size / 4), tile_size, tile_size))
+                   (en.pos_x * (tile_size / 4), en.pos_y * (tile_size / 4), tile_size, tile_size))
             if show_path:
                 if en.algorithm == Algorithm.DFS:
                     for sek in en.path:
@@ -219,7 +219,7 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images)
                         continue
                     temp_bomb = player.plant_bomb(grid)
                     bombs.append(temp_bomb)
-                    grid[temp_bomb.posX][temp_bomb.posY] = 3
+                    grid[temp_bomb.pos_x][temp_bomb.pos_y] = 3
                     player.bomb_limit -= 1
                 elif e.key == pygame.K_ESCAPE:
                     running = False
@@ -236,8 +236,8 @@ def update_bombs(grid, dt):
         b.update(dt)
         if b.time < 1:
             b.bomber.bomb_limit += 1
-            grid[b.posX][b.posY] = 0
-            exp_temp = Explosion(b.posX, b.posY, b.range)
+            grid[b.pos_x][b.pos_y] = 0
+            exp_temp = Explosion(b.pos_x, b.pos_y, b.range)
             exp_temp.explode(grid, bombs, b)
             exp_temp.clear_sectors(grid)
             explosions.append(exp_temp)

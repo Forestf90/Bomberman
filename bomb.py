@@ -3,8 +3,8 @@ class Bomb:
 
     def __init__(self, r, x, y, map, bomber):
         self.range = r
-        self.posX = x
-        self.posY = y
+        self.pos_x = x
+        self.pos_y = y
         self.time = 3000
         self.bomber = bomber
         self.sectors = []
@@ -21,37 +21,37 @@ class Bomb:
 
     def get_range(self, map):
 
-        self.sectors.append([self.posX, self.posY])
+        self.sectors.append([self.pos_x, self.pos_y])
 
         for x in range(1, self.range):
-            if map[self.posX + x][self.posY] == 1:
+            if map[self.pos_x + x][self.pos_y] == 1:
                 break
-            elif map[self.posX+x][self.posY] == 0 or map[self.posX-x][self.posY] == 3:
-                self.sectors.append([self.posX+x, self.posY])
-            elif map[self.posX+x][self.posY] == 2:
-                self.sectors.append([self.posX+x, self.posY])
-                break
-        for x in range(1, self.range):
-            if map[self.posX - x][self.posY] == 1:
-                break
-            elif map[self.posX-x][self.posY] == 0 or map[self.posX-x][self.posY] == 3:
-                self.sectors.append([self.posX-x, self.posY])
-            elif map[self.posX-x][self.posY] == 2:
-                self.sectors.append([self.posX-x, self.posY])
+            elif map[self.pos_x + x][self.pos_y] == 0 or map[self.pos_x - x][self.pos_y] == 3:
+                self.sectors.append([self.pos_x + x, self.pos_y])
+            elif map[self.pos_x + x][self.pos_y] == 2:
+                self.sectors.append([self.pos_x + x, self.pos_y])
                 break
         for x in range(1, self.range):
-            if map[self.posX][self.posY + x] == 1:
+            if map[self.pos_x - x][self.pos_y] == 1:
                 break
-            elif map[self.posX][self.posY+x] == 0 or map[self.posX][self.posY+x] == 3:
-                self.sectors.append([self.posX, self.posY+x])
-            elif map[self.posX][self.posY+x] == 2:
-                self.sectors.append([self.posX, self.posY+x])
+            elif map[self.pos_x - x][self.pos_y] == 0 or map[self.pos_x - x][self.pos_y] == 3:
+                self.sectors.append([self.pos_x - x, self.pos_y])
+            elif map[self.pos_x - x][self.pos_y] == 2:
+                self.sectors.append([self.pos_x - x, self.pos_y])
                 break
         for x in range(1, self.range):
-            if map[self.posX][self.posY - x] == 1:
+            if map[self.pos_x][self.pos_y + x] == 1:
                 break
-            elif map[self.posX][self.posY-x] == 0 or map[self.posX][self.posY-x] == 3:
-                self.sectors.append([self.posX, self.posY-x])
-            elif map[self.posX][self.posY - x] == 2:
-                self.sectors.append([self.posX, self.posY - x])
+            elif map[self.pos_x][self.pos_y + x] == 0 or map[self.pos_x][self.pos_y + x] == 3:
+                self.sectors.append([self.pos_x, self.pos_y + x])
+            elif map[self.pos_x][self.pos_y + x] == 2:
+                self.sectors.append([self.pos_x, self.pos_y + x])
+                break
+        for x in range(1, self.range):
+            if map[self.pos_x][self.pos_y - x] == 1:
+                break
+            elif map[self.pos_x][self.pos_y - x] == 0 or map[self.pos_x][self.pos_y - x] == 3:
+                self.sectors.append([self.pos_x, self.pos_y - x])
+            elif map[self.pos_x][self.pos_y - x] == 2:
+                self.sectors.append([self.pos_x, self.pos_y - x])
                 break

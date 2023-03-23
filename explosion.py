@@ -21,9 +21,9 @@ class Explosion:
 
         for s in self.sectors:
             for x in bombs:
-                if x.posX == s[0] and x.posY == s[1]:
+                if x.pos_x == s[0] and x.pos_y == s[1]:
 
-                    map[x.posX][x.posY] = 0
+                    map[x.pos_x][x.pos_y] = 0
                     x.bomber.bomb_limit += 1
                     self.explode(map, bombs, x)
 

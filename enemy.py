@@ -9,12 +9,14 @@ class Enemy:
 
     dire = [[1, 0, 1], [0, 1, 0], [-1, 0, 3], [0, -1, 2]]
 
+    TILE_SIZE = 4
+
     def __init__(self, x, y, alg):
         self.life = True
         self.path = []
         self.movement_path = []
-        self.posX = x * 4
-        self.posY = y * 4
+        self.pos_x = x * Enemy.TILE_SIZE
+        self.pos_y = y * Enemy.TILE_SIZE
         self.direction = 0
         self.frame = 0
         self.animation = []
@@ -26,15 +28,15 @@ class Enemy:
     def move(self, map, bombs, explosions, enemy):
 
         if self.direction == 0:
-            self.posY += 1
+            self.pos_y += 1
         elif self.direction == 1:
-            self.posX += 1
+            self.pos_x += 1
         elif self.direction == 2:
-            self.posY -= 1
+            self.pos_y -= 1
         elif self.direction == 3:
-            self.posX -= 1
+            self.pos_x -= 1
 
-        if self.posX % 4 == 0 and self.posY % 4 == 0:
+        if self.pos_x % Enemy.TILE_SIZE == 0 and self.pos_y % Enemy.TILE_SIZE == 0:
             self.movement_path.pop(0)
             self.path.pop(0)
             if len(self.path) > 1:
@@ -57,7 +59,7 @@ class Enemy:
             if self.plant:
                 bombs.append(self.plant_bomb(map))
                 self.plant = False
-                map[int(self.posX / 4)][int(self.posY / 4)] = 3
+                map[int(self.pos_x / Enemy.TILE_SIZE)][int(self.pos_y / Enemy.TILE_SIZE)] = 3
             if self.algorithm is Algorithm.DFS:
                 self.dfs(self.create_grid(map, bombs, explosions, enemy))
             else:
@@ -68,7 +70,7 @@ class Enemy:
             self.move(map, bombs, explosions, enemy)
 
     def plant_bomb(self, map):
-        b = Bomb(self.range, round(self.posX / 4), round(self.posY / 4), map, self)
+        b = Bomb(self.range, round(self.pos_x / Enemy.TILE_SIZE), round(self.pos_y / Enemy.TILE_SIZE), map, self)
         self.bomb_limit -= 1
         return b
 
@@ -76,15 +78,13 @@ class Enemy:
 
         for e in exp:
             for s in e.sectors:
-                if int(self.posX / 4) == s[0] and int(self.posY / 4) == s[1]:
-                    if e.bomber == self:
-                        print(str(self.algorithm.value) + " SUICIDE")
+                if int(self.pos_x / Enemy.TILE_SIZE) == s[0] and int(self.pos_y / Enemy.TILE_SIZE) == s[1]:
                     self.life = False
                     return
 
     def dfs(self, grid):
 
-        new_path = [[int(self.posX / 4), int(self.posY / 4)]]
+        new_path = [[int(self.pos_x / Enemy.TILE_SIZE), int(self.pos_y / Enemy.TILE_SIZE)]]
         depth = 0
         if self.bomb_limit == 0:
             self.dfs_rec(grid, 0, new_path, depth)
@@ -154,7 +154,7 @@ class Enemy:
 
         visited = []
         open_list = []
-        current = grid[int(self.posX / 4)][int(self.posY / 4)]
+        current = grid[int(self.pos_x / Enemy.TILE_SIZE)][int(self.pos_y / Enemy.TILE_SIZE)]
         current.weight = current.base_weight
         new_path = []
         while True:
@@ -205,7 +205,7 @@ class Enemy:
                             open_list.append(grid[current.x + self.dire[i][0]][current.y + self.dire[i][1]])
 
             if len(open_list) == 0:
-                self.path = [[int(self.posX / 4), int(self.posY / 4)]]
+                self.path = [[int(self.pos_x / Enemy.TILE_SIZE), int(self.pos_y / Enemy.TILE_SIZE)]]
                 return
 
             next_node = open_list[0]
@@ -214,7 +214,6 @@ class Enemy:
                     next_node = n
             open_list.remove(next_node)
             current = next_node
-
 
     def create_grid(self, map, bombs, explosions, enemys):
         grid = [[0] * len(map) for r in range(len(map))]
@@ -228,7 +227,7 @@ class Enemy:
             b.get_range(map)
             for x in b.sectors:
                 grid[x[0]][x[1]] = 1
-            grid[b.posX][b.posY] = 3
+            grid[b.pos_x][b.pos_y] = 3
 
         for e in explosions:
             for s in e.sectors:
@@ -247,7 +246,7 @@ class Enemy:
             elif not x.life:
                 continue
             else:
-                grid[int(x.posX / 4)][int(x.posY / 4)] = 2
+                grid[int(x.pos_x / Enemy.TILE_SIZE)][int(x.pos_y / Enemy.TILE_SIZE)] = 2
 
         return grid
 
@@ -274,7 +273,7 @@ class Enemy:
             for x in b.sectors:
                 grid[x[0]][x[1]].weight = 5
                 grid[x[0]][x[1]].value = 3
-            grid[b.posX][b.posY].reach = False
+            grid[b.pos_x][b.pos_y].reach = False
 
         for e in explosions:
             for s in e.sectors:
@@ -286,8 +285,8 @@ class Enemy:
             elif not x.life:
                 continue
             else:
-                grid[int(x.posX / 4)][int(x.posY / 4)].reach = False
-                grid[int(x.posX / 4)][int(x.posY / 4)].value = 1
+                grid[int(x.pos_x / Enemy.TILE_SIZE)][int(x.pos_y / Enemy.TILE_SIZE)].reach = False
+                grid[int(x.pos_x / Enemy.TILE_SIZE)][int(x.pos_y / Enemy.TILE_SIZE)].value = 1
         return grid
 
     def load_animations(self, en, scale):
